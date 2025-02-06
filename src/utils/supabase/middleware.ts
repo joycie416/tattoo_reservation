@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
           supabaseResponse = NextResponse.next({
@@ -41,7 +41,11 @@ export async function updateSession(request: NextRequest) {
 
   const role = user?.user_metadata.role;
 
-  if (!user && request.nextUrl.pathname === "/admin" || request.nextUrl.pathname.endsWith("/admin")) {
+  if (
+    !user &&
+    (request.nextUrl.pathname === "/admin" ||
+      request.nextUrl.pathname.endsWith("/admin"))
+  ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
@@ -54,7 +58,7 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/admin/login")
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = "/admin/reservation";
+    url.pathname = "/admin";
     return NextResponse.redirect(url);
   }
 
