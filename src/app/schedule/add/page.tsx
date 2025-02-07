@@ -1,12 +1,13 @@
-import { getCurrentTime } from "@/utils/schedule"
+import Calendar from "@/components/schedule/Calendar";
 
 const AddSchedulePage = () => {
-  const today = getCurrentTime();
-  console.log(today)
 
   return (
-    <div>AddSchedulePage</div>
-  )
-}
+    <div>
+      <h1>AddSchedulePage</h1>
+      <Calendar />
+    </div>
+  );
+};
 
-export default AddSchedulePage
+export default AddSchedulePage;
