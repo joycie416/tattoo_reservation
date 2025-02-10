@@ -1,11 +1,11 @@
-import Calendar from "@/components/schedule/Calendar";
+import CalendarContainer from "@/components/schedule/CalendarContainer";
 
 const AddSchedulePage = () => {
 
   return (
     <div>
       <h1>AddSchedulePage</h1>
-      <Calendar />
+      <CalendarContainer />
     </div>
   );
 };

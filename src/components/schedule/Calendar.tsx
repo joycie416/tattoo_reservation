@@ -3,9 +3,9 @@
 import { getCurrentTime, getOneMonth } from "@/utils/schedule";
 import { useState } from "react";
 
-type CalendarProps = {};
+type CalendarProps = {dateFn: (value: [string, number], index: number, array: [string, number][]) => JSX.Element};
 
-const Calendar = ({}: CalendarProps) => {
+const Calendar = ({dateFn}: CalendarProps) => {
   const today = getCurrentTime();
   const thisMonth = today[1].split("-").map(Number);
   const [currentMonth, setCurrentMonth] = useState<[number, number]>([
@@ -14,8 +14,6 @@ const Calendar = ({}: CalendarProps) => {
   ]);
 
   const calendar = getOneMonth(currentMonth);
-
-  console.log(new Date(today[0]))
 
   const nextMonth = () => {
     if (currentMonth[1] === 12) {
@@ -45,11 +43,7 @@ const Calendar = ({}: CalendarProps) => {
       {calendar.map((week, i) => (
         <div key={`week_${i}`}
         className="grid grid-cols-7">
-          {week.map(([date, day]) => (
-            <div key={`day_${day}`} className="h-20 border">
-              <p>{day}</p>
-            </div>
-          ))}
+          {week.map(dateFn)}
           </div>
 
       ))}

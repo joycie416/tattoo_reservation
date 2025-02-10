@@ -35,7 +35,7 @@ export const formatDate = (date: Date) => {
     .split(" ")[0];
 };
 
-export const getOneMonth = ([year, month]: [year: number, month: number]) => {
+export const getOneMonth = ([year, month]: [number, number]) => {
   // 이번달 첫
   // const startDate = new Date(year, month - 1, 1).getDate();
   const startDay = new Date(year, month - 1, 1).getDay();
