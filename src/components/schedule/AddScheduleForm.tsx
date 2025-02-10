@@ -48,6 +48,7 @@ const AddScheduleForm = () => {
             className={cn("border rounded-md py-2", {
               "border border-blue-300": isIncluded(time),
             })}
+            key={time}
           />
         ))}
       </div>
