@@ -1,3 +1,4 @@
+import AddScheduleForm from "@/components/schedule/AddScheduleForm";
 import { Metadata } from "next";
 
 export const generateMetadata = ({
@@ -10,8 +11,13 @@ export const generateMetadata = ({
   };
 }
 
-const AddPage = () => {
-  return <div>AddPage</div>;
+type AddPageParams = {params: {date: string}}
+
+const AddPage = ({params}: AddPageParams) => {
+  return <div>AddPage {params.date}
+  
+  <AddScheduleForm />
+  </div>;
 };
 
 export default AddPage;

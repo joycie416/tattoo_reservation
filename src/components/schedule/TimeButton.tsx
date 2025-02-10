@@ -3,13 +3,13 @@
 type TimeButtonProps = {
   time: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  className: string;
+  className?: string;
 };
 
 const TimeButton = ({ time, onClick, className = "" }: TimeButtonProps) => {
   return (
     <button onClick={onClick} className={className}>
-      <p>{time}:00</p>
+      <p>{time}</p>
     </button>
   );
 };

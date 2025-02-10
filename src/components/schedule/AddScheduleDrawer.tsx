@@ -42,7 +42,7 @@ const AddScheduleDrawer = ({ dateInfo, dateIndex }: AddScheuleDrawerProps) => {
       {isValidMonth && <DrawerContent overlay={false} displayDrawerButton={false}>
         <DrawerTitle className="hidden">일정 추가</DrawerTitle>
         <Link
-          href={"/schedule/add/" + date}
+          href={"/schedule/add/" + date.date}
           className="mx-auto w-full max-w-sm"
         >
           일정 추가하기
