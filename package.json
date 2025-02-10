@@ -10,11 +10,19 @@
     "gen": "supabase gen types typescript --project-id lvyzvqzgcqydicbpxwkt > database.types.ts"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.6",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "jotai": "^2.11.3",
+    "lucide-react": "^0.475.0",
     "next": "14.2.23",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@types/node": "^20",

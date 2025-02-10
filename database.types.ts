@@ -13,6 +13,7 @@ export type Database = {
         Row: {
           condition: string
           contact: string
+          cost: number
           created_at: string
           description: string
           id: string
@@ -23,6 +24,7 @@ export type Database = {
         Insert: {
           condition?: string
           contact?: string
+          cost?: number
           created_at?: string
           description?: string
           id?: string
@@ -33,6 +35,7 @@ export type Database = {
         Update: {
           condition?: string
           contact?: string
+          cost?: number
           created_at?: string
           description?: string
           id?: string
@@ -49,6 +52,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      schedules: {
+        Row: {
+          contact: string
+          created_at: string
+          day: string
+          full_date: string
+          id: string
+          month: string
+          name: string
+          owner_id: string | null
+          time: string
+          year: string
+        }
+        Insert: {
+          contact?: string
+          created_at?: string
+          day?: string
+          full_date?: string
+          id?: string
+          month?: string
+          name?: string
+          owner_id?: string | null
+          time?: string
+          year?: string
+        }
+        Update: {
+          contact?: string
+          created_at?: string
+          day?: string
+          full_date?: string
+          id?: string
+          month?: string
+          name?: string
+          owner_id?: string | null
+          time?: string
+          year?: string
+        }
+        Relationships: []
       }
       user_reservations: {
         Row: {
