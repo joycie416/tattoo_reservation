@@ -4,40 +4,39 @@ import { useAtom } from "jotai";
 import Calendar from "./Calendar";
 import { scheduleStore } from "@/store/scheduleStore";
 import { useEffect, useState } from "react";
-import { getCurrentTime } from "@/utils/schedule";
-import { useResetAtom } from "jotai/utils";
+import AddScheduleDrawer from "./AddScheduleDrawer";
 
-const CalendarContainer = () => {
+const AddScheduleCalendar = () => {
   const [date, setDate] = useAtom(scheduleStore);
-  const resetDate = useResetAtom(scheduleStore);
   const [currentMonth, setCurrentMonth] = useState<[number, number]>(() => {
     // 게으른 초기화 : 첫 렌더링 시에만 실행
-    const today = getCurrentTime()[1];
-    // const { date: curDate } = date;
-    // if (curDate !== today) {
-    //   const curMonth = curDate.split("-").map(Number);
-    //   return [curMonth[0], curMonth[1]];
-    // }
+    // const today = getCurrentTime()[1];
+    const { date: curDate, today } = date;
+    if (curDate !== today) {
+      const curMonth = curDate.split("-").map(Number);
+      return [curMonth[0], curMonth[1]];
+    }
     const curMonth = today.split("-").map(Number);
     return [curMonth[0], curMonth[1]];
   });
 
   useEffect(() => {
-    resetDate();
+    // 다른 페이지에서 뒤로가기/앞으로가기로 넘어온 경우 기존에 클릭한 날짜 유지
+    const curMonth = date.date.split("-").map(Number);
+    if (currentMonth[0] === curMonth[0] && currentMonth[1] === curMonth[1]) {
+      return;
+    }
+    setDate({
+      ...date,
+      date: `${currentMonth[0]}-${("0" + currentMonth[1]).slice(-2)}-01`,
+    });
+  }, [currentMonth]);
+
+  useEffect(() => {
+    // 맨 처음 렌더링 시 현재 달로 설정
+    const curMonth = date.date.split("-").map(Number);
+    setCurrentMonth([curMonth[0], curMonth[1]]);
   }, []);
-
-  const colorDate = (currentDate: string, i: number) => {
-    const month = currentDate.split("-")[1];
-    const currentMonth = date.date.split("-")[1];
-    if (month !== currentMonth) return "text-gray-100";
-    if (i === 0) return "text-red-500";
-    if (i === 6) return "text-blue-500";
-    return "";
-  };
-
-  const handleClick = (curDate: string) => {
-    setDate({...date, date:curDate });
-  };
 
   const nextMonth = () => {
     if (currentMonth[1] === 12) {
@@ -70,13 +69,11 @@ const CalendarContainer = () => {
   return (
     <Calendar
       dateFn={([date, day], i) => (
-        <div
+        <AddScheduleDrawer
+          dateInfo={[date, day]}
+          dateIndex={i}
           key={`day_${day}`}
-          className="h-20 border"
-          onClick={() => handleClick(date)}
-        >
-          <p className={`${colorDate(date, i)}`}>{day}</p>
-        </div>
+        />
       )}
       prevMonth={prevMonth}
       nextMonth={nextMonth}
@@ -85,4 +82,4 @@ const CalendarContainer = () => {
   );
 };
 
-export default CalendarContainer;
+export default AddScheduleCalendar;

@@ -1,15 +1,13 @@
-import { Provider } from "jotai";
+import CalendarContainer from "@/components/schedule/CalendarContainer";
 import Link from "next/link";
 
 const SchedulePage = () => {
   return (
-    <Provider>
-      <div>
-        <Link href="/schedule/add">일정 추가</Link>
-        <h3>이번달 일정표</h3>
-        <div>일정표</div>
-      </div>
-    </Provider>
+    <div>
+      <Link href="/schedule/add">일정 추가</Link>
+      <h3>일정표</h3>
+      <CalendarContainer />
+    </div>
   );
 };
 

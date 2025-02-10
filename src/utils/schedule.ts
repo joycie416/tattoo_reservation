@@ -72,3 +72,12 @@ export const getOneMonth = ([year, month]: [number, number]) => {
 
   return Month;
 };
+
+export const colorDate = (currentDate: string, date:string, i: number) => {
+  const month = currentDate.split("-")[1];
+  const currentMonth = date.split("-")[1];
+  if (month !== currentMonth) return "text-gray-100";
+  if (i === 0) return "text-red-500";
+  if (i === 6) return "text-blue-500";
+  return "";
+};

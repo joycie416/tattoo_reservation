@@ -1,11 +1,15 @@
-import CalendarContainer from "@/components/schedule/CalendarContainer";
+import AddScheduleCalendar from "@/components/schedule/AddScheduleCalendar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: '일정 추가'
+}
 
 const AddSchedulePage = () => {
-
   return (
     <div>
       <h1>AddSchedulePage</h1>
-      <CalendarContainer />
+      <AddScheduleCalendar />
     </div>
   );
 };
