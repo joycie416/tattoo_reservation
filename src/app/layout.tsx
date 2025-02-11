@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Providers as QueryClientProvider } from "@/providers/QueryClientProvider";
 
 export const metadata: Metadata = {
   title: "enan.tt 예약",
@@ -12,12 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={` antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <QueryClientProvider>
+      <html lang="ko">
+        <body className={` antialiased`}>{children}</body>
+      </html>
+    </QueryClientProvider>
   );
 }

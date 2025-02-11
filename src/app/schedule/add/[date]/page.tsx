@@ -1,4 +1,10 @@
+import { getSchedules } from "@/api/schedule";
 import AddScheduleForm from "@/components/schedule/AddScheduleForm";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { Metadata } from "next";
 
 export const generateMetadata = ({
@@ -13,12 +19,22 @@ export const generateMetadata = ({
 
 type AddPageParams = { params: { date: string } };
 
-const AddPage = ({ params }: AddPageParams) => {
+const AddPage = async ({ params }: AddPageParams) => {
+  const queryClient = new QueryClient();
+  const [year, month] = params.date.split("-");
+
+  await queryClient.prefetchQuery({
+    queryKey: ["schedule", year, month],
+    queryFn: () => getSchedules(year, month),
+  });
+
   return (
-    <div>
-      AddPage {params.date}
-      <AddScheduleForm />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div>
+        AddPage {params.date}
+        <AddScheduleForm date={params.date}/>
+      </div>
+    </HydrationBoundary>
   );
 };
 

@@ -1,3 +1,5 @@
+import { Tables } from "../../database.types";
+
 // 현재 시각 및 날짜를 반환하는 함수
 export const getCurrentTime = () => {
   const current = new Date()
@@ -77,7 +79,7 @@ export const getOneMonth = ([year, month]: [number, number]) => {
 };
 
 // 날짜 색 결정하는 함수
-export const colorDate = (currentDate: string, date:string, i: number) => {
+export const colorDate = (currentDate: string, date: string, i: number) => {
   const month = currentDate.split("-")[1];
   const currentMonth = date.split("-")[1];
   if (month !== currentMonth) return "text-gray-100";
@@ -88,9 +90,52 @@ export const colorDate = (currentDate: string, date:string, i: number) => {
 
 // 유효한 날짜인지 확인하는 함수
 export const isValidDate = (date: string) => {
-  const [year, month, day] = date.split('-').map(Number);
+  const [year, month, day] = date.split("-").map(Number);
   const parsedDate = new Date(date);
-  const [parsedYear, parsedMonth, parsedDay] = [parsedDate.getFullYear(), parsedDate.getMonth() + 1, parsedDate.getDate()];
+  const [parsedYear, parsedMonth, parsedDay] = [
+    parsedDate.getFullYear(),
+    parsedDate.getMonth() + 1,
+    parsedDate.getDate(),
+  ];
 
   return parsedDay === day && parsedMonth === month && parsedYear === year;
-}
+};
+
+type ReservationDataType = {
+  user_id: string | null;
+  user_name: string;
+  contact: string;
+};
+// const reservationDefaultData = {
+//   user_id: null,
+//   user_name: "",
+//   contact: "",
+// };
+export const parseSchedule = (
+  date: string,
+  times: string[],
+  reservationData: ReservationDataType = {
+    user_id: null,
+    user_name: "",
+    contact: "",
+  }
+): Omit<Tables<"schedules">, "id" | "created_at">[] => {
+  const [year, month, parsedDate] = date.split("-");
+  const { user_id, user_name, contact } = reservationData;
+  const scheduleData = [];
+
+  for (const time of times) {
+    scheduleData.push({
+      full_date: date,
+      year,
+      month,
+      date: parsedDate,
+      time,
+      user_id,
+      user_name,
+      contact,
+    });
+  }
+
+  return scheduleData;
+};

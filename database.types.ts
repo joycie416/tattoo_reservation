@@ -57,37 +57,37 @@ export type Database = {
         Row: {
           contact: string
           created_at: string
-          day: string
+          date: string
           full_date: string
           id: string
           month: string
-          name: string
-          owner_id: string | null
           time: string
+          user_id: string | null
+          user_name: string
           year: string
         }
         Insert: {
           contact?: string
           created_at?: string
-          day?: string
+          date?: string
           full_date?: string
           id?: string
           month?: string
-          name?: string
-          owner_id?: string | null
           time?: string
+          user_id?: string | null
+          user_name?: string
           year?: string
         }
         Update: {
           contact?: string
           created_at?: string
-          day?: string
+          date?: string
           full_date?: string
           id?: string
           month?: string
-          name?: string
-          owner_id?: string | null
           time?: string
+          user_id?: string | null
+          user_name?: string
           year?: string
         }
         Relationships: []

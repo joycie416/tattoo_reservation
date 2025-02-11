@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/api/auth-api";
+import { login } from "@/api/auth";
 import { LoginType } from "@/types/auth";
 
 const AdminLoginForm = () => {
@@ -9,7 +9,7 @@ const AdminLoginForm = () => {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
     const error = await login(data as LoginType);
-    console.log(error)
+    console.log(error);
 
     if (error) {
       alert(`${error.name}: ${error.code}`);
