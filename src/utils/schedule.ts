@@ -1,3 +1,4 @@
+// 현재 시각 및 날짜를 반환하는 함수
 export const getCurrentTime = () => {
   const current = new Date()
     .toLocaleString("ko-KR", {
@@ -17,6 +18,7 @@ export const getCurrentTime = () => {
   return [current, current.split(" ")[0]];
 };
 
+// yyyy-mm-dd 형식으로 변환
 export const formatDate = (date: Date) => {
   return date
     .toLocaleString("ko-KR", {
@@ -35,6 +37,7 @@ export const formatDate = (date: Date) => {
     .split(" ")[0];
 };
 
+// 한달 달력을 주별 array로 반환하는 함수
 export const getOneMonth = ([year, month]: [number, number]) => {
   // 이번달 첫
   // const startDate = new Date(year, month - 1, 1).getDate();
@@ -73,6 +76,7 @@ export const getOneMonth = ([year, month]: [number, number]) => {
   return Month;
 };
 
+// 날짜 색 결정하는 함수
 export const colorDate = (currentDate: string, date:string, i: number) => {
   const month = currentDate.split("-")[1];
   const currentMonth = date.split("-")[1];
@@ -81,3 +85,12 @@ export const colorDate = (currentDate: string, date:string, i: number) => {
   if (i === 6) return "text-blue-500";
   return "";
 };
+
+// 유효한 날짜인지 확인하는 함수
+export const isValidDate = (date: string) => {
+  const [year, month, day] = date.split('-').map(Number);
+  const parsedDate = new Date(date);
+  const [parsedYear, parsedMonth, parsedDay] = [parsedDate.getFullYear(), parsedDate.getMonth() + 1, parsedDate.getDate()];
+
+  return parsedDay === day && parsedMonth === month && parsedYear === year;
+}

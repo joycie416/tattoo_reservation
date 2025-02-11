@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import TimeButton from "./TimeButton";
 import { cn } from "@/lib/utils";
 import AddScheduleButton from "./AddScheduleButton";
+import { isValidDate } from "@/utils/schedule";
 
 const TIMES = [
   "09:00",
