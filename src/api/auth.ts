@@ -35,5 +35,7 @@ export const logout = async () => {
   if (error) {
     return { name: error.name, code: error.code };
   }
-  return null;
+
+  redirect('/')
+  // return null;
 };
