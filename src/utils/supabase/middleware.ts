@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { isValidDate } from "../schedule";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -59,6 +60,17 @@ export async function updateSession(request: NextRequest) {
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin";
+    return NextResponse.redirect(url);
+  }
+
+  if (
+    !!user &&
+    role === "admin" &&
+    request.nextUrl.pathname.startsWith("/admin/schedule/add/") &&
+    !isValidDate(request.nextUrl.pathname.split("/").at(-1) ?? "") // 일정 등록 페이지로 접근했으나 유효한 날짜가 아님
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin/schedule/add";
     return NextResponse.redirect(url);
   }
 

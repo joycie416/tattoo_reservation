@@ -1,6 +1,6 @@
 "use client";
 
-import { logout } from "@/api/auth-api";
+import { logout } from "@/api/auth";
 import Link from "next/link";
 
 export default function Home() {
@@ -12,9 +12,12 @@ export default function Home() {
   };
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <button onClick={handleLogout}>로그아웃</button>
+    <div className="w-full min-h-screen flex flex-col">
       <Link href="/admin/login">관리자 로그인</Link>
+      <button onClick={handleLogout} className="w-fit">
+        로그아웃
+      </button>
+      <Link href="/schedule">일정 보기</Link>
     </div>
   );
 }

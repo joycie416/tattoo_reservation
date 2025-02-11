@@ -1,11 +1,18 @@
-import React from 'react'
+import React from "react";
 
-type AddScheduleButtonProps = {onClick: (e?: React.MouseEvent<HTMLButtonElement>) => void;}
+type AddScheduleButtonProps = {
+  onClick: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+};
 
-const AddScheduleButton = ({onClick}: AddScheduleButtonProps) => {
+const AddScheduleButton = ({ onClick }: AddScheduleButtonProps) => {
   return (
-    <button className='mx-auto p-4 rounded-xl text-white bg-blue-500' onClick={onClick}>예약 가능 일정 추가</button>
-  )
-}
+    <button
+      className="mx-auto p-4 rounded-xl text-white bg-blue-500"
+      onClick={onClick}
+    >
+      예약 가능 일정 추가/변경
+    </button>
+  );
+};
 
-export default AddScheduleButton
+export default AddScheduleButton;

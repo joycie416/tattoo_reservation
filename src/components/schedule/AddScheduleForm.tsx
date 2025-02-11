@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TimeButton from "./TimeButton";
 import { cn } from "@/lib/utils";
 import AddScheduleButton from "./AddScheduleButton";
+import { useEditScheduleMutation, useGetSchedule } from "@/hooks/useSchedule";
 
 const TIMES = [
   "09:00",
@@ -21,19 +22,45 @@ const TIMES = [
   "21:00",
 ];
 
-const AddScheduleForm = () => {
-  const [times, setTimes] = useState<string[]>([]);
+type AddScheduleFormProps = { date: string };
+
+const AddScheduleForm = ({ date }: AddScheduleFormProps) => {
+  // const [year, month, parsedDate] = date.split("-");
+  const [year, month] = date.split("-");
+  // const { data, isLoading, isError, error } = useGetSchedule(year, month);
+  const { data } = useGetSchedule(year, month);
+  // const {mutate: editSchedule, isError:isEditError, error: editError} = useEditScheduleMutation(date);
+  const {mutate: editSchedule} = useEditScheduleMutation(date);
+  const scheduledTimes = data?.filter(({full_date}) => full_date === date).map(({ time, id }) => [time, id]) ?? [];
+
+  const [times, setTimes] = useState<string[]>(() =>
+    scheduledTimes.map(([time]) => time)
+  );
+
+  useEffect(() => {
+    console.log('data:', data)
+    console.log('clicked:', times)
+  }, [times])
 
   const handleClick = (time: string) => {
-    if (isIncluded(time)) {
-      setTimes((prev) => prev.filter(scheduled => scheduled !== time))
-      return 
+    if (times.includes(time)) {
+      setTimes((prev) => prev.filter((cur) => cur !== time));
+    } else {
+      setTimes((prev) => [...prev, time]);
     }
-    setTimes((prev) => [...prev, time]);
   };
 
-  const isIncluded = (time: string) => {
-    return times.includes(time);
+  const classifyData = () => {
+    const addTimes = times.filter(
+      (time) => !scheduledTimes.find(([data]) => data === time)
+    );
+    const deleteIds = scheduledTimes
+      .filter(([time]) => !times.includes(time))
+      .map(([, id]) => id);
+
+    console.log("toAdd:", addTimes);
+    console.log("toDelete:", deleteIds);
+    return {addTimes, deleteIds};
   };
 
   return (
@@ -46,13 +73,17 @@ const AddScheduleForm = () => {
               handleClick(time);
             }}
             className={cn("border rounded-md py-2", {
-              "border border-blue-300": isIncluded(time),
+              "border border-blue-300": times.includes(time),
             })}
             key={time}
           />
         ))}
       </div>
-      <AddScheduleButton onClick={() => {}}/>
+      <AddScheduleButton
+        onClick={() => {
+          editSchedule(classifyData());
+        }}
+      />
     </div>
   );
 };
