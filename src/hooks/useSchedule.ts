@@ -13,7 +13,7 @@ export const useGetSchedule = (year: string, month: string) => {
 
 // 일정 추가/삭제하기
 export const useEditScheduleMutation = (date: string) => {
-  const router = useRouter()
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [year, month] = date.split("-");
 
@@ -29,7 +29,8 @@ export const useEditScheduleMutation = (date: string) => {
       await deleteSchedules(deleteIds);
     },
     onSuccess: () => {
-      router.push("/schedule/add");
+      alert("일정이 추가/변경되었습니다.");
+      router.push("/admin/schedule/add");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["schedule", year, month] });
