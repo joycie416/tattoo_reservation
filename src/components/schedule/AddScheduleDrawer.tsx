@@ -15,39 +15,50 @@ type AddScheuleDrawerProps = { dateInfo: [string, number]; dateIndex: number };
 
 const AddScheduleDrawer = ({ dateInfo, dateIndex }: AddScheuleDrawerProps) => {
   const [currentDate, day] = dateInfo;
-  const [date, setDate] = useAtom(scheduleStore);
+  const [dateStore, setDate] = useAtom(scheduleStore);
 
   const currentMonth = currentDate.split("-")[1];
-  const month = date.date.split("-")[1];
+  const month = dateStore.date.split("-")[1];
 
   const isValidMonth = currentMonth === month;
-  const isToday = currentDate === date.date
+  const isToday = currentDate === dateStore.date;
 
   const onClick = () => {
-  console.log('isValidMonth:', isValidMonth);
+    console.log("isValidMonth:", isValidMonth);
 
     if (isValidMonth) {
       console.log("clicked:", currentDate);
-      setDate({...date, date: currentDate });
+      setDate({ ...dateStore, date: currentDate });
     }
   };
 
   return (
     <Drawer>
       <DrawerTrigger asChild disabled={!isValidMonth}>
-        <div className={`h-20 border ${isToday && 'bg-gray-100'}`} onClick={onClick}>
-          <p className={`${colorDate(currentDate, date.date, dateIndex)}`}>{day}</p>
+        <div
+          className={`h-20 border ${isToday && "bg-gray-100"}`}
+          onClick={onClick}
+        >
+          <p className={`${colorDate(currentDate, dateStore.date, dateIndex)}`}>
+            {day}
+          </p>
         </div>
       </DrawerTrigger>
-      {isValidMonth && <DrawerContent overlay={false} displayDrawerButton={false}>
-        <DrawerTitle className="hidden">일정 추가</DrawerTitle>
-        <Link
-          href={"/admin/schedule/add/" + date.date}
-          className="mx-auto w-full max-w-sm"
+      {isValidMonth && (
+        <DrawerContent
+          overlay={false}
+          displayDrawerButton={false}
+          className="max-w-mobile mx-auto px-3 py-3"
         >
-          일정 추가하기
-        </Link>
-      </DrawerContent>}
+          <DrawerTitle className="hidden">일정 추가</DrawerTitle>
+          <Link
+            href={"/admin/schedule/add/" + dateStore.date}
+            className="w-full py-3 mx-auto bg-blue-400 rounded-md text-center text-white"
+          >
+            일정 추가
+          </Link>
+        </DrawerContent>
+      )}
     </Drawer>
   );
 };

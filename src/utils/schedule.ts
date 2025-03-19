@@ -1,18 +1,20 @@
 import { Tables } from "../../database.types";
 
+const options: Intl.DateTimeFormatOptions = {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: false, // 24시간
+};
+
 // 현재 시각 및 날짜를 반환하는 함수
 export const getCurrentTime = () => {
   const current = new Date()
-    .toLocaleString("ko-KR", {
-      timeZone: "Asia/Seoul",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false, // 24시간
-    })
+    .toLocaleString("ko-KR", options)
     .replace(". ", "-")
     .replace(". ", "-")
     .replace(". ", " ");
@@ -23,16 +25,7 @@ export const getCurrentTime = () => {
 // yyyy-mm-dd 형식으로 변환
 export const formatDate = (date: Date) => {
   return date
-    .toLocaleString("ko-KR", {
-      timeZone: "Asia/Seoul",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false, // 24시간
-    })
+    .toLocaleString("ko-KR", options)
     .replace(". ", "-")
     .replace(". ", "-")
     .replace(". ", " ")
@@ -40,7 +33,10 @@ export const formatDate = (date: Date) => {
 };
 
 // 한달 달력을 주별 array로 반환하는 함수
-export const getOneMonth = ([year, month]: [number, number]) => {
+export const getOneMonth = ([year, month]: [number, number]): [
+  string,
+  number
+][][] => {
   // 이번달 첫
   // const startDate = new Date(year, month - 1, 1).getDate();
   const startDay = new Date(year, month - 1, 1).getDay();
@@ -80,8 +76,8 @@ export const getOneMonth = ([year, month]: [number, number]) => {
 
 // 날짜 색 결정하는 함수
 export const colorDate = (currentDate: string, date: string, i: number) => {
-  const month = currentDate.split("-")[1];
-  const currentMonth = date.split("-")[1];
+  const currentMonth = currentDate.split("-")[1];
+  const month = date.split("-")[1];
   if (month !== currentMonth) return "text-gray-100";
   if (i === 0) return "text-red-500";
   if (i === 6) return "text-blue-500";

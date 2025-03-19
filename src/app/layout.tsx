@@ -15,7 +15,11 @@ export default function RootLayout({
   return (
     <QueryClientProvider>
       <html lang="ko">
-        <body className={` antialiased`}>{children}</body>
+        <body className={`bg-blue-100 antialiased`}>
+          <main className="w-full max-w-mobile min-h-screen mx-auto bg-white">
+            {children}
+          </main>
+        </body>
       </html>
     </QueryClientProvider>
   );
