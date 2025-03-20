@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import TimeButton from "./TimeButton";
+import TimeButton from "../shared/TimeButton";
 import { cn } from "@/lib/utils";
 import AddScheduleButton from "./AddScheduleButton";
 import { useEditScheduleMutation, useGetSchedule } from "@/hooks/useSchedule";

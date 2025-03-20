@@ -6,7 +6,8 @@ export const getSchedules = async (year: string, month: string) => {
     .from("schedules")
     .select()
     .eq("year", year)
-    .eq("month", month);
+    .eq("month", month)
+    .order("date");
   if (error) {
     throw new Error(error.message);
   }
@@ -29,10 +30,13 @@ export const addSchedules = async (date: string, times: string[]) => {
 
 export const deleteSchedules = async (ids: string[]) => {
   if (ids.length === 0) return null;
-  
-  const {status} = await browserClient.from('schedules').delete().in('id', ids);
-  if (!String(status).startsWith('2')) {
-    throw new Error('정상적으로 데이터가 삭제되지 않았습니다.')
+
+  const { status } = await browserClient
+    .from("schedules")
+    .delete()
+    .in("id", ids);
+  if (!String(status).startsWith("2")) {
+    throw new Error("정상적으로 데이터가 삭제되지 않았습니다.");
   }
   return null;
 };

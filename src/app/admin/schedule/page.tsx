@@ -1,4 +1,4 @@
-import CalendarContainer from "@/components/schedule/CalendarContainer";
+import CalendarContainer from "@/components/shared/CalendarContainer";
 import Link from "next/link";
 
 const SchedulePage = () => {
