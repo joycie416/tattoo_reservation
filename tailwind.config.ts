@@ -1,5 +1,16 @@
 import type { Config } from "tailwindcss";
 
+const colors = {
+  button: "#F6F6F6",
+  background: "#ECECEC",
+  guide: "#D9D9D9",
+  font2: "#636363",
+  font1: "#222222",
+  font3: "#FF003C",
+  font5: "#FF86A2",
+  font4: "#FFE9EE",
+};
+
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -9,15 +20,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+      colors: colors,
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      borderColor: colors,
       width: {
         mobile: "var(--mobile-width)",
       },

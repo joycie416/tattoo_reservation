@@ -1,18 +1,19 @@
 import { getSchedules } from "@/api/schedule";
-import { formatDate } from "@/utils/schedule";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { Provider } from "jotai";
-import { ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
-const ReservationAddLayout = async ({ children }: { children: ReactNode }) => {
-  const today = new Date();
-  const [year, month] = formatDate(today).split("-");
-
+const ScheduleAddLayout = async ({
+  params,
+  children,
+}: PropsWithChildren<{ params: { date: string } }>) => {
   const queryClient = new QueryClient();
+  const [year, month] = params.date.split("-");
+  console.log("schedule add params:", params);
+
   await queryClient.prefetchQuery({
     queryKey: ["schedule", year, month],
     queryFn: () => getSchedules(year, month),
@@ -20,9 +21,9 @@ const ReservationAddLayout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Provider>{children}</Provider>
+      {children}
     </HydrationBoundary>
   );
 };
 
-export default ReservationAddLayout;
+export default ScheduleAddLayout;

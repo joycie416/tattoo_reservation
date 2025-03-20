@@ -1,4 +1,4 @@
-import { Tables } from "../../database.types";
+import { Schedule } from "@/types/supabase";
 
 const options: Intl.DateTimeFormatOptions = {
   timeZone: "Asia/Seoul",
@@ -115,7 +115,7 @@ export const parseSchedule = (
     user_name: "",
     contact: "",
   }
-): Omit<Tables<"schedules">, "id" | "created_at">[] => {
+): Omit<Schedule, "id" | "created_at">[] => {
   const [year, month, parsedDate] = date.split("-");
   const { user_id, user_name, contact } = reservationData;
   const scheduleData = [];
@@ -134,4 +134,27 @@ export const parseSchedule = (
   }
 
   return scheduleData;
+};
+
+export const sortSchedule = (
+  scheduleData: Schedule[]
+): [string[], Map<string, Schedule[]>] => {
+  const sortedSchedule: Map<string, Schedule[]> = new Map();
+  const availableDates: string[] = [];
+
+  scheduleData.forEach((schedule) => {
+    const { full_date } = schedule;
+
+    if (!sortedSchedule.has(full_date)) {
+      sortedSchedule.set(full_date, [schedule]);
+      availableDates.push(full_date);
+    } else {
+      sortedSchedule.set(full_date, [
+        ...(sortedSchedule.get(full_date) ?? []),
+        schedule,
+      ]);
+    }
+  });
+
+  return [availableDates, sortedSchedule];
 };
