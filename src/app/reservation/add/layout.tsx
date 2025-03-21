@@ -13,6 +13,10 @@ import { ReactNode } from "react";
 export const metadata: Metadata = {
   title: "enan.tt 예약 문의",
   description: "enan.tt 예약 문의 페이지입니다.",
+  openGraph: {
+    title: "enan.tt 예약 문의",
+    description: "enan.tt 예약 문의 페이지입니다.",
+  },
 };
 
 const ReservationAddLayout = async ({ children }: { children: ReactNode }) => {
