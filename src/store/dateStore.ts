@@ -16,13 +16,14 @@ export type commmonDateType = {
   date: string;
   today: string;
   time?: string;
-  name?: string;
-  contact?: string;
-  instagram?: string;
   part?: string;
   size?: string;
   description?: string;
   images?: File[];
+  name?: string;
+  contact?: string;
+  instagram?: string;
+  password?: string;
 };
 
 export const scheduleStore = atomWithReset<commmonDateType>({

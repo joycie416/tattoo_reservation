@@ -214,6 +214,24 @@ const ReservationFirstStep = () => {
               }
             />
           </div>
+          <div className="flex flex-col">
+            <label htmlFor="password" className="text-sm">
+              비밀번호*{" "}
+              <p className="inline text-xs">
+                (예약확인용, 숫자만 입력해주세요)
+              </p>
+            </label>
+            <input
+              id="password"
+              className="border border-background rounded-[5px]"
+              onChange={(e) =>
+                setReservation((prev) => ({
+                  ...prev,
+                  password: e.target.value,
+                }))
+              }
+            />
+          </div>
         </div>
         <hr className="my-4" />
       </form>
