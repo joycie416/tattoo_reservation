@@ -1,10 +1,7 @@
 "use client";
 
-import { reservationDateStore } from "@/store/reservationStore";
-import { scheduleStore } from "@/store/scheduleStore";
+import useConditionalDateAtom from "@/hooks/useConditionalDateAtom";
 import { getOneMonth } from "@/utils/schedule";
-import { useAtom } from "jotai";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type CalendarProps = {
@@ -24,11 +21,7 @@ const Calendar = ({
   handlePrevMonth = () => {},
   handleNextMonth = () => {},
 }: CalendarProps) => {
-  const pathName = usePathname();
-  const isReservation = pathName.startsWith("/reservation");
-  const [dateStore, setDate] = useAtom(
-    isReservation ? reservationDateStore : scheduleStore
-  );
+  const [dateStore, setDate] = useConditionalDateAtom();
   const [currentMonth, setCurrentMonth] = useState<[number, number]>(() => {
     // 게으른 초기화 : 첫 렌더링 시에만 실행
     // const today = getCurrentTime()[1];

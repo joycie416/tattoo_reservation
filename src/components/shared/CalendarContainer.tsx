@@ -2,7 +2,7 @@
 
 import { useAtom } from "jotai";
 import Calendar from "./Calendar";
-import { scheduleStore } from "@/store/scheduleStore";
+import { scheduleStore } from "@/store/dateStore";
 import { useEffect } from "react";
 import { useResetAtom } from "jotai/utils";
 

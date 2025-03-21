@@ -1,11 +1,11 @@
 "use client";
 
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
-import { ReservationType } from "@/components/reservation/ReservationFirstStep";
+import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Schedule } from "@/types/supabase";
 import { useAtomValue } from "jotai";
-import { reservationDateStore } from "@/store/reservationStore";
+import { reservationStore } from "@/store/dateStore";
+import { ConditionalDateAtomType } from "@/hooks/useConditionalDateAtom";
 
 // const TIMES = {
 //   "09:00": "오전 09:00",
@@ -44,10 +44,10 @@ const TimeRadioGroup = ({
   setReservation,
 }: {
   schedules: Map<string, Schedule[]>;
-  setReservation: React.Dispatch<SetStateAction<ReservationType>>;
+  setReservation: ConditionalDateAtomType[1];
 }) => {
   const [checkedTime, setCheckedTime] = useState("");
-  const { date: curDate } = useAtomValue(reservationDateStore);
+  const { date: curDate } = useAtomValue(reservationStore);
 
   const availableTimes = (schedules.get(curDate) ?? []).map(
     (schedule) => schedule.time
