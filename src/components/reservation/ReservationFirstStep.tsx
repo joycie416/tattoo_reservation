@@ -2,38 +2,20 @@
 
 import Calendar from "../shared/Calendar";
 import { colorDate, sortSchedule } from "@/utils/schedule";
-import { useAtom } from "jotai";
 import { cn } from "@/lib/utils";
 import { useGetSchedule } from "@/hooks/useSchedule";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import TimeRadioGroup from "../shared/TimeRadioGroup";
-import { reservationDateStore } from "@/store/reservationStore";
 import Image from "next/image";
-
-export type ReservationType = {
-  fullDate: string;
-  time: string;
-  style: string;
-  description: string;
-  images: File[];
-};
-const DEFAULT_RESERVATION: ReservationType = {
-  fullDate: "",
-  time: "",
-  style: "",
-  description: "",
-  images: [],
-};
+import useConditionalDateAtom from "@/hooks/useConditionalDateAtom";
 
 const ReservationFirstStep = () => {
-  const [dateStore, setDate] = useAtom(reservationDateStore);
-  const [curYear, curMonth] = dateStore.date.split("-");
+  const [reservation, setReservation] = useConditionalDateAtom();
+  const [curYear, curMonth] = reservation.date.split("-");
 
-  const { data: scheduleDate } = useGetSchedule(curYear, curMonth);
-  const [, sortedSchedule] = sortSchedule(scheduleDate ?? []);
+  const { data: schedule } = useGetSchedule(curYear, curMonth);
+  const [, sortedSchedule] = sortSchedule(schedule ?? []);
 
-  const [reservation, setReservation] =
-    useState<ReservationType>(DEFAULT_RESERVATION);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resizeTextarea = () => {
     // textarea 높이 자동 조절
@@ -59,19 +41,18 @@ const ReservationFirstStep = () => {
   const handleImageDelete = (i: number) => {
     setReservation((prev) => ({
       ...prev,
-      images: prev.images.filter((_, idx) => idx !== i),
+      images: (prev.images ?? []).filter((_, idx) => idx !== i),
     }));
   };
 
   const handleDateClick = (curDate: string) => {
-    setDate({ ...dateStore, date: curDate });
-    // setBasicInfo(prev => ({...prev, fullDate:curDate}))
+    setReservation((prev) => ({ ...prev, date: curDate }));
   };
 
   return (
-    <div>
+    <div id="reservation_wrapper">
       <div>
-        <h3>원하는 날자를 선택해주세요</h3>
+        <h3>원하는 날짜를 선택해주세요</h3>
         <p className="text-xs">* 작업자의 일정에 따라 변경될 수 있습니다</p>
       </div>
       <form>
@@ -80,7 +61,7 @@ const ReservationFirstStep = () => {
             <div
               key={`date_${date}`}
               className={cn("h-20 border", {
-                "bg-gray-100": date === dateStore.date,
+                "bg-gray-100": date === reservation.date,
                 "border-gray-500": sortedSchedule.has(date),
               })}
               onClick={(e) => {
@@ -88,7 +69,7 @@ const ReservationFirstStep = () => {
                 handleDateClick(date);
               }}
             >
-              <p className={`${colorDate(date, dateStore.date, i)}`}>{day}</p>
+              <p className={`${colorDate(date, reservation.date, i)}`}>{day}</p>
             </div>
           )}
         />
@@ -103,16 +84,50 @@ const ReservationFirstStep = () => {
         />
         <hr className="my-4" />
         <div>
-          <h3>문의사항을 입력해주세요</h3>
+          <h3>타투할 부위와 사이즈를 입력해주세요</h3>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col">
+            <label htmlFor="part" className="text-sm">
+              부위
+            </label>
+            <input
+              id="part"
+              className="border border-background rounded-[5px]"
+              onChange={(e) =>
+                setReservation((prev) => ({ ...prev, part: e.target.value }))
+              }
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="size" className="text-sm">
+              사이즈
+            </label>
+            <input
+              id="size"
+              className="border border-background rounded-[5px]"
+              onChange={(e) =>
+                setReservation((prev) => ({ ...prev, size: e.target.value }))
+              }
+            />
+          </div>
+        </div>
+        <hr className="my-4" />
+        <div>
+          <h3>세부사항을 입력해주세요</h3>
           <p className="text-xs">* 상세하게~</p>
         </div>
-        <div className="h-fit p-0 m-0 flex border border-background">
-          <textarea
-            className="w-full min-h-[250px] resize-none focus:outline-none"
-            ref={textareaRef}
-            onInput={() => resizeTextarea()}
-          />
-        </div>
+        <textarea
+          ref={textareaRef}
+          onInput={() => resizeTextarea()}
+          onChange={() =>
+            setReservation((prev) => ({
+              ...prev,
+              description: textareaRef.current?.value ?? "",
+            }))
+          }
+          className="w-full min-h-[250px] resize-none border border-backgound rounded-md focus:outline-none"
+        />
         <hr className="my-4" />
         <div className="mb-4">
           <h3>참고 이미지를 첨부해주세요(최대 4장)</h3>
@@ -134,7 +149,7 @@ const ReservationFirstStep = () => {
               />
               +
             </div>
-            {reservation.images.map((file, i) => (
+            {(reservation.images ?? []).map((file, i) => (
               <div className="w-20 h-20 relative" key={`image_${i}`}>
                 <Image
                   src={URL.createObjectURL(file)}
@@ -155,7 +170,61 @@ const ReservationFirstStep = () => {
           </div>
         </div>
         <hr className="my-4" />
+        <div>
+          <h3>고객 정보를 입력해주세요</h3>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col">
+            <label htmlFor="name" className="text-sm">
+              이름*
+            </label>
+            <input
+              id="name"
+              className="border border-background rounded-[5px]"
+              onChange={(e) =>
+                setReservation((prev) => ({ ...prev, name: e.target.value }))
+              }
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="contact" className="text-sm">
+              전화번호* <p className="inline text-xs">(숫자만 입력해주세요)</p>
+            </label>
+            <input
+              id="contact"
+              className="border border-background rounded-[5px]"
+              onChange={(e) =>
+                setReservation((prev) => ({ ...prev, contact: e.target.value }))
+              }
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="instagram" className="text-sm">
+              인스타 ID{" "}
+              <p className="inline text-xs">(DM이 편하시면 남겨주세요)</p>
+            </label>
+            <input
+              id="instagram"
+              className="border border-background rounded-[5px]"
+              onChange={(e) =>
+                setReservation((prev) => ({
+                  ...prev,
+                  instagram: e.target.value,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <hr className="my-4" />
       </form>
+      <div className="w-full px-[3.5px] py-2 bg-white sticky bottom-0">
+        <button
+          className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
+          onClick={() => console.log(reservation)}
+        >
+          확인
+        </button>
+      </div>
     </div>
   );
 };

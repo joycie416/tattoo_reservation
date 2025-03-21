@@ -2,7 +2,7 @@
 
 import { useAtom } from "jotai";
 import Calendar from "@/components/shared/Calendar";
-import { scheduleStore } from "@/store/scheduleStore";
+import { scheduleStore } from "@/store/dateStore";
 import { useEffect, useState } from "react";
 import AddScheduleDrawer from "./AddScheduleDrawer";
 

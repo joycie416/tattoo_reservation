@@ -6,7 +6,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { scheduleStore } from "@/store/scheduleStore";
+import { scheduleStore } from "@/store/dateStore";
 import { colorDate } from "@/utils/schedule";
 import { useAtom } from "jotai";
 import Link from "next/link";

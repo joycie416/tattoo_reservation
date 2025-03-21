@@ -1,4 +1,5 @@
 import { getSchedules } from "@/api/schedule";
+import PageHeader from "@/components/shared/PageHeader";
 import { formatDate } from "@/utils/schedule";
 import {
   dehydrate,
@@ -20,7 +21,10 @@ const ReservationAddLayout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Provider>{children}</Provider>
+      <Provider>
+        <PageHeader title="예약 문의" backTo="/reservation" />
+        {children}
+      </Provider>
     </HydrationBoundary>
   );
 };
