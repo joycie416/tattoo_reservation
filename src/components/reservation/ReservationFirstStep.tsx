@@ -141,7 +141,7 @@ const ReservationFirstStep = () => {
             >
               <input
                 type="file"
-                multiple
+                multiple // 여러 파일 선택 가능
                 accept="image/*"
                 ref={imgRef}
                 className="hidden"

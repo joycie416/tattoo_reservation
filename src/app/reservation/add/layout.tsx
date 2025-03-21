@@ -7,7 +7,13 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { Provider } from "jotai";
+import { Metadata } from "next";
 import { ReactNode } from "react";
+
+export const metadata: Metadata = {
+  title: "enan.tt 예약 문의",
+  description: "enan.tt 예약 문의 페이지입니다.",
+};
 
 const ReservationAddLayout = async ({ children }: { children: ReactNode }) => {
   const today = new Date();
