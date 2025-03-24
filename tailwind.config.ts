@@ -36,6 +36,9 @@ const config: Config = {
       minWidth: {
         mobile: "var(--mobile-width)",
       },
+      fontFamily: {
+        pretendard: ["var(--font-pretendard)"],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

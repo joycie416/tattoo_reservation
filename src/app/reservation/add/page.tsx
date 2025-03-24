@@ -1,11 +1,7 @@
-import ReservationFirstStep from "@/components/reservation/ReservationFirstStep";
+import { redirect } from "next/navigation";
 
 const ReservationAddPage = () => {
-  return (
-    <div className="container flex flex-col">
-      <ReservationFirstStep />
-    </div>
-  );
+  redirect("/reservation/add/1");
 };
 
 export default ReservationAddPage;

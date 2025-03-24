@@ -15,43 +15,79 @@ export type Database = {
           contact: string
           cost: number
           created_at: string
+          date: string
           description: string
           id: string
+          instagram: string
           modified_at: string
-          user_name: string
-          user_reservation_id: string
+          name: string
+          part: string
+          password: string
+          reservation_id: string
+          size: string
+          time: string
+          type: string
         }
         Insert: {
           condition?: string
           contact?: string
           cost?: number
           created_at?: string
+          date?: string
           description?: string
           id?: string
+          instagram?: string
           modified_at?: string
-          user_name?: string
-          user_reservation_id?: string
+          name?: string
+          part?: string
+          password?: string
+          reservation_id: string
+          size?: string
+          time?: string
+          type?: string
         }
         Update: {
           condition?: string
           contact?: string
           cost?: number
           created_at?: string
+          date?: string
           description?: string
           id?: string
+          instagram?: string
           modified_at?: string
-          user_name?: string
-          user_reservation_id?: string
+          name?: string
+          part?: string
+          password?: string
+          reservation_id?: string
+          size?: string
+          time?: string
+          type?: string
         }
         Relationships: [
           {
-            foreignKeyName: "confirmed_reservations_user_reservation_id_fkey"
-            columns: ["user_reservation_id"]
+            foreignKeyName: "confirmed_reservationss_reservation_id_fkey"
+            columns: ["reservation_id"]
             isOneToOne: false
             referencedRelation: "user_reservations"
             referencedColumns: ["id"]
           },
         ]
+      }
+      dummy: {
+        Row: {
+          created_at: string
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+        }
+        Relationships: []
       }
       schedules: {
         Row: {
@@ -97,31 +133,49 @@ export type Database = {
           condition: string
           contact: string
           created_at: string
+          date: string
           description: string
           id: string
+          instagram: string
           modified_at: string
-          user_name: string
-          user_password: string
+          name: string
+          part: string
+          password: string
+          size: string
+          time: string
+          type: string
         }
         Insert: {
           condition?: string
           contact?: string
           created_at?: string
+          date?: string
           description?: string
           id?: string
+          instagram?: string
           modified_at?: string
-          user_name?: string
-          user_password?: string
+          name?: string
+          part?: string
+          password?: string
+          size?: string
+          time?: string
+          type?: string
         }
         Update: {
           condition?: string
           contact?: string
           created_at?: string
+          date?: string
           description?: string
           id?: string
+          instagram?: string
           modified_at?: string
-          user_name?: string
-          user_password?: string
+          name?: string
+          part?: string
+          password?: string
+          size?: string
+          time?: string
+          type?: string
         }
         Relationships: []
       }
