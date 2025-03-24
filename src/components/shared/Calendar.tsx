@@ -1,7 +1,7 @@
 "use client";
 
 import useConditionalDateAtom from "@/hooks/useConditionalDateAtom";
-import { getOneMonth } from "@/utils/schedule";
+import { getCurrentTime, getOneMonth } from "@/utils/schedule";
 import { useEffect, useState } from "react";
 
 type CalendarProps = {
@@ -45,7 +45,7 @@ const Calendar = ({
       // 이번달이 됐으면 오늘로 설정
       setDate({
         ...dateStore,
-        date: today,
+        date: today ?? getCurrentTime()[1],
       });
       return;
     }

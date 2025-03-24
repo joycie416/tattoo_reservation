@@ -14,10 +14,11 @@ import { atomWithReset } from "jotai/utils";
 
 export type commmonDateType = {
   date: string;
-  today: string;
+  today?: string;
   time?: string;
   part?: string;
   size?: string;
+  type?: string;
   description?: string;
   images?: File[];
   name?: string;
@@ -44,12 +45,12 @@ export const scheduleStore = atomWithReset<commmonDateType>({
 
 export const reservationStore = atomWithReset<commmonDateType>({
   date: getCurrentTime()[1],
-  today: getCurrentTime()[1],
   time: "",
   name: "",
   contact: "",
   part: "",
   size: "",
+  type: "own",
   description: "",
   images: [],
 });
