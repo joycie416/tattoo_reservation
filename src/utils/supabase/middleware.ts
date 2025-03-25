@@ -42,10 +42,7 @@ export async function updateSession(request: NextRequest) {
 
   const role = user?.user_metadata.role;
 
-  if (
-    !user &&
-      request.nextUrl.pathname.startsWith("/admin")
-  ) {
+  if (!user && request.nextUrl.pathname.startsWith("/admin")) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/login";
@@ -70,6 +67,12 @@ export async function updateSession(request: NextRequest) {
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/schedule/add";
+    return NextResponse.redirect(url);
+  }
+
+  if (request.nextUrl.pathname === "/reservation/add") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/reservation/add/1";
     return NextResponse.redirect(url);
   }
 

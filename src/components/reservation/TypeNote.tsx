@@ -1,10 +1,13 @@
 import React from "react";
-import { TabsContent } from "../ui/tabs";
+import { TabsContent, TabsTrigger } from "../ui/tabs";
 import { CircleAlert } from "lucide-react";
+import TabContentArrow from "/public/icons/tab-content-arrow.svg";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export type ValueType = keyof typeof typeNoteContent;
 const typeNoteContentStyle =
-  "text-font3 text-[12px] tracking-[-0.025em] leading-[16px] font-normal";
+  "text-font3 text-[12px] leading-[16px] font-normal";
 const typeNoteContent = {
   own: (
     <p className={typeNoteContentStyle}>
@@ -29,14 +32,43 @@ const typeNoteContent = {
   ),
 };
 
-const TypeNote = ({ value }: { value: "own" | "custom" | "coverup" }) => {
+type TattooType = { value: "own" | "custom" | "coverup" };
+
+export const TypeTrigger = ({ value }: TattooType) => {
+  const typeTriggerDetail = {
+    own: ["", "작업자 도안"],
+    custom: ["", "커스텀 타투"],
+    coverup: ["", "커버업 타투"],
+  };
+  return (
+    <TabsTrigger
+      value={value}
+      className="h-full w-full p-0 bg-guide data-[state=active]:bg-guide data-[state=active]:border data-[state=active]:border-font1"
+    >
+      <div className="w-full h-full px-[18px] pb-[10px] flex items-end">
+        <p className="text-subtitle-md">{typeTriggerDetail[value][1]}</p>
+      </div>
+    </TabsTrigger>
+  );
+};
+
+export const TypeNote = ({ value }: TattooType) => {
   return (
     <TabsContent value={value}>
-      <div className="w-full px-[11px] py-2 flex gap-2 bg-font4 rounded-sm">
+      <div className="w-full grid grid-cols-3 gap-3">
+        <div
+          className={cn("flex justify-center", {
+            "col-start-1 col-end-2": value === "own",
+            "col-start-2 col-end-3": value === "custom",
+            "col-start-3 col-end-4": value === "coverup",
+          })}
+        >
+          <Image src={TabContentArrow} alt="타입 화살표" />
+        </div>
+      </div>
+      <div className="w-full px-[11px] py-2 mx-2 flex gap-2 bg-font4 rounded-sm">
         <CircleAlert size={16} color="#FF003C" /> {typeNoteContent[value]}
       </div>
     </TabsContent>
   );
 };
-
-export default TypeNote;

@@ -21,6 +21,10 @@ body {
 
     --font-pretendard: "Pretendard", sans-serif;
   }
+
+  input {
+    @apply px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2;
+  }
 }
 
 @layer components {
@@ -29,7 +33,7 @@ body {
     height: 100%;
     min-height: 100vh;
 
-    padding: 0 32px;
+    padding: 0 24px;
     margin: 0 auto;
 
     background-color: white;

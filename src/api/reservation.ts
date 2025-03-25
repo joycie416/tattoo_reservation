@@ -33,10 +33,6 @@ export const addUserReservation = async (reservation: UserReservation) => {
     .insert(reservation)
     .select();
 
-  console.log("예약 데이터 추가");
-  console.log(data);
-  console.log(error);
-
   if (error) {
     throw new Error(error.message);
   }
