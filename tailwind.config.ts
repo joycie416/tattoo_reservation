@@ -39,6 +39,17 @@ const config: Config = {
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],
       },
+      fontSize: {
+        "title-sm": ["14px", { fontWeight: "600" }],
+        "title-md": ["16px", { fontWeight: "700" }],
+        "title-lg": ["18px", { lineHeight: "28px", fontWeight: "700" }],
+        "title-xl": ["20px", { fontWeight: "600" }],
+
+        "subtitle-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }],
+        "subtitle-md": ["14px", { fontWeight: "500" }],
+
+        body: ["14px", { fontWeight: "400" }],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

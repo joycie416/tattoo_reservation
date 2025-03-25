@@ -10,15 +10,21 @@ import { UserReservation } from "@/types/supabase";
 import { colorDate, sortSchedule } from "@/utils/schedule";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import TypeNote, { ValueType } from "./TypeNote";
+import { CircleAlert } from "lucide-react";
+import NoticeCheckbox, { noticeCheckboxContent } from "./NoticeCheckbox";
 
 type ReservationStepProps = { step: string };
 
 const ReservationStep = ({ step }: ReservationStepProps) => {
   const [reservation, setReservation] = useConditionalDateAtom();
   const [curYear, curMonth] = reservation.date.split("-");
+
+  const [checks, setChecks] = useState<boolean[]>(
+    Array(noticeCheckboxContent.length).fill(false)
+  );
 
   const { data: schedule } = useGetSchedule(curYear, curMonth);
   const [, sortedSchedule] = sortSchedule(schedule ?? []);
@@ -59,8 +65,52 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
     setReservation((prev) => ({ ...prev, date: curDate }));
   };
 
+  const onToSecondStepClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    const isValid =
+      !!reservation.type &&
+      !!reservation.size &&
+      !!reservation.part &&
+      !!reservation.images?.length;
+    if (!isValid) {
+      e.preventDefault();
+      alert("예약 사항을 모두 입력해주세요. (사진 최소 1장)");
+    }
+  };
+
+  const onToLastStepClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    const isValid = !!reservation.date && !!reservation.time;
+    if (!isValid) {
+      e.preventDefault();
+      alert("예약 날짜와 시간을 모두 선택해주세요.");
+    }
+  };
+
+  const isAllChecked = () => {
+    return checks.every((check) => check);
+  };
+
+  const onConfirmClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const isValid =
+      !!reservation.name &&
+      !!reservation.contact &&
+      !!reservation.instagram &&
+      !!reservation.password;
+    if (!isValid || !isAllChecked()) {
+      e.preventDefault();
+      alert("고객 정보를 모두 입력해주세요. 안내사항을 모두 체크해주세요.");
+      return;
+    }
+    addReservation(reservation as UserReservation & { images: File[] });
+  };
+
   return (
-    <div id="reservation_wrapper">
+    <div id="reservation_wrapper" className="text-font1">
       <form>
         {step === "1" && (
           <>
@@ -192,6 +242,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
             <div className="w-full px-[3.5px] py-2 bg-white">
               <Link
                 href={"/reservation/add/2"}
+                onClick={onToSecondStepClick}
                 className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
               >
                 다음
@@ -202,9 +253,9 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
         {step === "2" && (
           <>
             <div>
-              <h3>원하는 날짜를 선택해주세요</h3>
+              <h3>원하는 날짜를 선택해주세요.</h3>
               <p className="text-xs">
-                * 작업자의 일정에 따라 변경될 수 있습니다
+                * 작업자의 일정에 따라 변경될 수 있습니다.
               </p>
             </div>
             <Calendar
@@ -228,9 +279,9 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
             />
             <hr className="my-4" />
             <div>
-              <h3>원하는 시간을 선택해주세요</h3>
+              <h3>원하는 시간을 선택해주세요.</h3>
               <p className="text-xs">
-                * 작업자의 일정에 따라 변경될 수 있습니다
+                * 작업자의 일정에 따라 변경될 수 있습니다.
               </p>
             </div>
             <TimeRadioGroup
@@ -240,6 +291,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
             <div className="w-full px-[3.5px] py-2 bg-white">
               <Link
                 href={"/reservation/add/3"}
+                onClick={onToLastStepClick}
                 className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
               >
                 다음
@@ -247,19 +299,19 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
             </div>
           </>
         )}
-        <hr className="my-4" />
         {step === "3" && (
           <>
             <div>
-              <h3>고객 정보를 입력해주세요</h3>
+              <h3 className="text-title-md">고객 정보를 입력해주세요.</h3>
             </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col">
-                <label htmlFor="name" className="text-sm">
-                  이름*
+            <div className="flex flex-col gap-4 mt-4">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="name" className="text-subtitle-md">
+                  예약하실 분 성함을 입력해주세요.
                 </label>
                 <input
                   id="name"
+                  placeholder="이름을 입력해주세요"
                   defaultValue={reservation.name}
                   onChange={(e) =>
                     setReservation((prev) => ({
@@ -267,16 +319,16 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       name: e.target.value,
                     }))
                   }
-                  className="border border-background rounded-[5px]"
+                  className="px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="contact" className="text-sm">
-                  전화번호*{" "}
-                  <p className="inline text-xs">(숫자만 입력해주세요)</p>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="contact" className="text-subtitle-md">
+                  연락처를 입력해주세요.
                 </label>
                 <input
                   id="contact"
+                  placeholder="010-0000-0000"
                   defaultValue={reservation.contact}
                   onChange={(e) =>
                     setReservation((prev) => ({
@@ -284,16 +336,21 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       contact: e.target.value,
                     }))
                   }
-                  className="border border-background rounded-[5px]"
+                  className="px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="instagram" className="text-sm">
-                  인스타 ID{" "}
-                  <p className="inline text-xs">(DM이 편하시면 남겨주세요)</p>
-                </label>
+              <div className="flex flex-col gap-2">
+                <div className="space-y-1">
+                  <label htmlFor="instagram" className="text-subtitle-md">
+                    인스타 ID를 입력해주세요.
+                  </label>
+                  <p className="text-subtitle-sm text-font3">
+                    * 예약 시 DM을 통해 안내가 갈 예정입니다.
+                  </p>
+                </div>
                 <input
                   id="instagram"
+                  placeholder="@를 뺀 아이디를 입력해주세요"
                   defaultValue={reservation.instagram}
                   onChange={(e) =>
                     setReservation((prev) => ({
@@ -301,18 +358,16 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       instagram: e.target.value,
                     }))
                   }
-                  className="border border-background rounded-[5px]"
+                  className="px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="password" className="text-sm">
-                  비밀번호*{" "}
-                  <p className="inline text-xs">
-                    (예약확인용, 숫자만 입력해주세요)
-                  </p>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="password" className="text-subtitle-md">
+                  예약 확인용 비밀번호를 입력해주세요.
                 </label>
                 <input
                   id="password"
+                  placeholder="숫자 4자리를 입력해주세요"
                   defaultValue={reservation.password}
                   onChange={(e) =>
                     setReservation((prev) => ({
@@ -320,18 +375,37 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       password: e.target.value,
                     }))
                   }
-                  className="border border-background rounded-[5px]"
+                  className="px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2"
                 />
               </div>
+            </div>
+            <hr className="h-[0.75px] bg-guide border-0 my-[28px]" />
+            <div className="space-y-2 mb-6">
+              <div className="flex gap-1 items-center">
+                <CircleAlert
+                  size={18}
+                  className="w-[18px] h-[18px]"
+                  color="#FF003C"
+                />
+                <p className="text-font3 text-[16px] font-semibold">
+                  예약 전 안내사항
+                </p>
+              </div>
+              {Array(noticeCheckboxContent.length)
+                .fill(false)
+                .map((checked, i) => (
+                  <NoticeCheckbox
+                    checked={checked}
+                    setChecks={setChecks}
+                    i={i}
+                    key={`notice_${i}`}
+                  />
+                ))}
             </div>
             <div className="w-full px-[3.5px] py-2 bg-white">
               <button
                 className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
-                onClick={() => {
-                  addReservation(
-                    reservation as UserReservation & { images: File[] }
-                  );
-                }}
+                onClick={onConfirmClick}
               >
                 확인
               </button>
