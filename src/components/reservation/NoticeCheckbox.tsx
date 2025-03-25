@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useRef } from "react";
 import { Checkbox } from "../ui/checkbox";
 
 export const noticeCheckboxContent: { bold: string; normal: string }[] = [
@@ -31,23 +32,38 @@ type NoticeCheckboxProps = {
   i: number;
 };
 
-const NoticeCheckbox = ({ setChecks, i }: NoticeCheckboxProps) => {
+const NoticeCheckbox = ({ checked, setChecks, i }: NoticeCheckboxProps) => {
+  // div 클릭시 setState 전달 depth가 깊다는 런타임 에러가 발생해 useRef 사용
+  const checkboxRef = useRef<HTMLButtonElement>(null);
+  const handleClick = () => {
+    if (checkboxRef.current) {
+      checkboxRef.current.click();
+    }
+  };
   return (
-    <div className="px-[18px] py-[14px] flex justify-between items-center bg-font4 rounded-[4px]">
+    <div
+      className="px-[18px] py-[14px] flex justify-between items-center bg-font4 rounded-[4px] cursor-pointer"
+      onClick={() => {
+        handleClick();
+      }}
+    >
       <div>
         <p className="text-[14px] font-semibold tracking-[-0.025em]">
           {noticeCheckboxContent[i].bold}
         </p>
         <p className="text-[12px] tracking-[-0.025em]">
-          {noticeCheckboxContent[i].normal}{" "}
+          {noticeCheckboxContent[i].normal}
         </p>
       </div>
       <Checkbox
-        id="check1"
-        onCheckedChange={(check) => {
+        id={`notice_checkbox_${i}`}
+        ref={checkboxRef}
+        checked={checked}
+        onClick={(e) => {
+          e.stopPropagation();
           setChecks((prev) => {
             const newChecks = [...prev];
-            newChecks[i] = !!check;
+            newChecks[i] = !prev[i];
             return newChecks;
           });
         }}

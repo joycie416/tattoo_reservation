@@ -21,6 +21,10 @@ body {
 
     --font-pretendard: "Pretendard", sans-serif;
   }
+
+  input {
+    @apply px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2;
+  }
 }
 
 @layer components {

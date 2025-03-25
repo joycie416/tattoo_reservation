@@ -65,30 +65,41 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
     setReservation((prev) => ({ ...prev, date: curDate }));
   };
 
+  const isFirstStepFilled =
+    !!reservation.type &&
+    !!reservation.size &&
+    !!reservation.part &&
+    !!reservation.images?.length;
   const onToSecondStepClick = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
-    const isValid =
-      !!reservation.type &&
-      !!reservation.size &&
-      !!reservation.part &&
-      !!reservation.images?.length;
-    if (!isValid) {
+    if (!isFirstStepFilled) {
       e.preventDefault();
       alert("예약 사항을 모두 입력해주세요. (사진 최소 1장)");
     }
   };
 
+  const isSecondStepFilled = !!reservation.date && !!reservation.time;
   const onToLastStepClick = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
-    const isValid = !!reservation.date && !!reservation.time;
-    if (!isValid) {
+    if (!isSecondStepFilled) {
       e.preventDefault();
       alert("예약 날짜와 시간을 모두 선택해주세요.");
     }
   };
 
+  const contactReg = /^\d{11}$/;
+  const instagramReg = /^(?!.*\.\.)(?!.*\.$)[a-z0-9._]{5,30}$/;
+  const passwordReg = /^\d{4}$/;
+  const isLastStepFilled =
+    !!reservation.name &&
+    !!reservation.contact &&
+    contactReg.test(reservation.contact) &&
+    !!reservation.instagram &&
+    instagramReg.test(reservation.instagram) &&
+    !!reservation.password &&
+    passwordReg.test(reservation.password);
   const isAllChecked = () => {
     return checks.every((check) => check);
   };
@@ -96,14 +107,14 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
   const onConfirmClick = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
-    const isValid =
-      !!reservation.name &&
-      !!reservation.contact &&
-      !!reservation.instagram &&
-      !!reservation.password;
-    if (!isValid || !isAllChecked()) {
+    if (
+      !isFirstStepFilled ||
+      !isSecondStepFilled ||
+      !isLastStepFilled ||
+      !isAllChecked()
+    ) {
       e.preventDefault();
-      alert("고객 정보를 모두 입력해주세요. 안내사항을 모두 체크해주세요.");
+      alert("작성한 고객 정보와 안내사항을 모두 확인해주세요.");
       return;
     }
     addReservation(reservation as UserReservation & { images: File[] });
@@ -158,7 +169,6 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       part: e.target.value,
                     }))
                   }
-                  className="border border-background rounded-[5px]"
                 />
               </div>
               <div className="flex flex-col">
@@ -174,7 +184,6 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       size: e.target.value,
                     }))
                   }
-                  className="border border-background rounded-[5px]"
                 />
               </div>
             </div>
@@ -239,11 +248,17 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
               </div>
             </div>
 
-            <div className="w-full px-[3.5px] py-2 bg-white">
+            <div className="w-full py-2 bg-white">
               <Link
                 href={"/reservation/add/2"}
+                aria-disabled={!isFirstStepFilled}
                 onClick={onToSecondStepClick}
-                className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
+                className={cn(
+                  "w-full h-8 flex justify-center items-center bg-font2 rounded-[4px] text-white",
+                  {
+                    "bg-guide": !isFirstStepFilled,
+                  }
+                )}
               >
                 다음
               </Link>
@@ -288,11 +303,17 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
               schedules={sortedSchedule}
               setReservation={setReservation}
             />
-            <div className="w-full px-[3.5px] py-2 bg-white">
+            <div className="w-full py-2 bg-white">
               <Link
                 href={"/reservation/add/3"}
+                aria-disabled={!isSecondStepFilled}
                 onClick={onToLastStepClick}
-                className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
+                className={cn(
+                  "w-full h-8 flex justify-center items-center bg-font2 rounded-[4px] text-white",
+                  {
+                    "bg-guide": !isSecondStepFilled,
+                  }
+                )}
               >
                 다음
               </Link>
@@ -301,7 +322,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
         )}
         {step === "3" && (
           <>
-            <div>
+            <div className="mt-6">
               <h3 className="text-title-md">고객 정보를 입력해주세요.</h3>
             </div>
             <div className="flex flex-col gap-4 mt-4">
@@ -319,7 +340,6 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       name: e.target.value,
                     }))
                   }
-                  className="px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -328,15 +348,16 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                 </label>
                 <input
                   id="contact"
+                  pattern="[0-9]*" // 일부 안드로이드 브라우저 숫자 키패드 트리거
+                  inputMode="numeric" // 모바일에서 숫자 키패드 표시
                   placeholder="010-0000-0000"
                   defaultValue={reservation.contact}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setReservation((prev) => ({
                       ...prev,
                       contact: e.target.value,
-                    }))
-                  }
-                  className="px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2"
+                    }));
+                  }}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -352,13 +373,12 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                   id="instagram"
                   placeholder="@를 뺀 아이디를 입력해주세요"
                   defaultValue={reservation.instagram}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setReservation((prev) => ({
                       ...prev,
-                      instagram: e.target.value,
-                    }))
-                  }
-                  className="px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2"
+                      instagram: e.target.value.toLowerCase(),
+                    }));
+                  }}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -367,20 +387,22 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                 </label>
                 <input
                   id="password"
+                  pattern="[0-9]$" // 일부 안드로이드 브라우저 숫자 키패드 트리거
+                  inputMode="numeric" // 모바일에서 숫자 키패드 표시
+                  maxLength={4}
                   placeholder="숫자 4자리를 입력해주세요"
                   defaultValue={reservation.password}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setReservation((prev) => ({
                       ...prev,
                       password: e.target.value,
-                    }))
-                  }
-                  className="px-[14px] py-4 border border-background rounded-[4px] text-body placeholder-font2"
+                    }));
+                  }}
                 />
               </div>
             </div>
             <hr className="h-[0.75px] bg-guide border-0 my-[28px]" />
-            <div className="space-y-2 mb-6">
+            <div className="space-y-3 mb-6">
               <div className="flex gap-1 items-center">
                 <CircleAlert
                   size={18}
@@ -391,22 +413,29 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                   예약 전 안내사항
                 </p>
               </div>
-              {Array(noticeCheckboxContent.length)
-                .fill(false)
-                .map((checked, i) => (
-                  <NoticeCheckbox
-                    checked={checked}
-                    setChecks={setChecks}
-                    i={i}
-                    key={`notice_${i}`}
-                  />
-                ))}
+              {Array.from(
+                { length: noticeCheckboxContent.length },
+                (_, i) => i
+              ).map((i) => (
+                <NoticeCheckbox
+                  checked={checks[i]}
+                  setChecks={setChecks}
+                  i={i}
+                  key={`notice_${i}`}
+                />
+              ))}
             </div>
-            <div className="w-full px-[3.5px] py-2 bg-white">
+            <div className="w-full py-2 bg-white">
               <Link
                 href={"/reservation/add/complete"}
+                aria-disabled={!isLastStepFilled}
                 onClick={onConfirmClick}
-                className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
+                className={cn(
+                  "w-full h-8 flex justify-center items-center bg-font2 rounded-[4px] text-white",
+                  {
+                    "bg-guide": !isLastStepFilled,
+                  }
+                )}
               >
                 확인
               </Link>
