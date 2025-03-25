@@ -94,7 +94,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
   };
 
   const onConfirmClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     const isValid =
       !!reservation.name &&
@@ -403,12 +403,13 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                 ))}
             </div>
             <div className="w-full px-[3.5px] py-2 bg-white">
-              <button
-                className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
+              <Link
+                href={"/reservation/add/complete"}
                 onClick={onConfirmClick}
+                className="w-full h-8 flex justify-center items-center bg-font2 rounded-[5px] text-white"
               >
                 확인
-              </button>
+              </Link>
             </div>
           </>
         )}
