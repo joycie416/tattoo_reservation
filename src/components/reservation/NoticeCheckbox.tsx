@@ -48,12 +48,10 @@ const NoticeCheckbox = ({ checked, setChecks, i }: NoticeCheckboxProps) => {
       }}
     >
       <div>
-        <p className="text-[14px] font-semibold tracking-[-0.025em]">
+        <p className="text-[14px] font-semibold">
           {noticeCheckboxContent[i].bold}
         </p>
-        <p className="text-[12px] tracking-[-0.025em]">
-          {noticeCheckboxContent[i].normal}
-        </p>
+        <p className="text-[12px]">{noticeCheckboxContent[i].normal}</p>
       </div>
       <Checkbox
         id={`notice_checkbox_${i}`}

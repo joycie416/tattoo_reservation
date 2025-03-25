@@ -74,18 +74,15 @@ const TimeRadioGroup = ({
     const isAvailable = availableTimes.includes(time);
     const isChecked = checkedTime === time;
 
-    return cn(
-      "py-2 bg-white border rounded-[5px] text-[14px] text-center tracking-[-0.025em]",
-      {
-        "border-font3 cursor-pointer": isAvailable,
-        "border-backgound text-background": !isAvailable,
-        "bg-font4 border-0 text-font3": isChecked,
-      }
-    );
+    return cn("py-2 bg-white border rounded-[5px] text-[14px] text-center", {
+      "border-font2 cursor-pointer": isAvailable,
+      "border-guide text-guide": !isAvailable,
+      "bg-font4 border-0 text-font3": isChecked,
+    });
   };
 
   return (
-    <fieldset className="w-full">
+    <fieldset className="w-full mb-[18px]">
       <div className="grid grid-cols-4 gap-2">
         {TIMES.map((time) => (
           // <label htmlFor={time} key={time}>
