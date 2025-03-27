@@ -46,7 +46,9 @@ export const TypeTrigger = ({ value }: TattooType) => {
       className="h-full w-full p-0 bg-guide data-[state=active]:bg-guide data-[state=active]:border data-[state=active]:border-font1"
     >
       <div className="w-full h-full px-[18px] pb-[10px] flex items-end">
-        <p className="text-subtitle-md">{typeTriggerDetail[value][1]}</p>
+        <p className="text-subtitle-md mx-auto">
+          {typeTriggerDetail[value][1]}
+        </p>
       </div>
     </TabsTrigger>
   );
@@ -66,8 +68,10 @@ export const TypeNote = ({ value }: TattooType) => {
           <Image src={TabContentArrow} alt="타입 화살표" />
         </div>
       </div>
-      <div className="w-full px-[11px] py-2 mx-2 flex gap-2 bg-font4 rounded-sm">
-        <CircleAlert size={16} color="#FF003C" /> {typeNoteContent[value]}
+      <div className="w-full px-2">
+        <div className="w-full px-[11px] py-2 flex gap-2 bg-font4 rounded-sm">
+          <CircleAlert size={16} color="#FF003C" /> {typeNoteContent[value]}
+        </div>
       </div>
     </TabsContent>
   );

@@ -7,7 +7,12 @@ import { useGetSchedule } from "@/hooks/useSchedule";
 import { useAddUserReservation } from "@/hooks/useUserReservation";
 import { cn } from "@/lib/utils";
 import { UserReservation } from "@/types/supabase";
-import { colorDate, sortSchedule } from "@/utils/schedule";
+import {
+  colorDate,
+  formatContact,
+  getCurrentTime,
+  sortSchedule,
+} from "@/utils/schedule";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -20,7 +25,7 @@ type ReservationStepProps = { step: string };
 
 const ReservationStep = ({ step }: ReservationStepProps) => {
   const [reservation, setReservation] = useConditionalDateAtom();
-  const [curYear, curMonth] = reservation.date.split("-");
+  const [curYear, curMonth] = getCurrentTime()[1].split("-");
 
   const [checks, setChecks] = useState<boolean[]>(
     Array(noticeCheckboxContent.length).fill(false)
@@ -334,7 +339,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                 <input
                   id="name"
                   placeholder="이름을 입력해주세요"
-                  defaultValue={reservation.name}
+                  value={reservation.name}
                   onChange={(e) =>
                     setReservation((prev) => ({
                       ...prev,
@@ -352,11 +357,12 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                   pattern="[0-9]*" // 일부 안드로이드 브라우저 숫자 키패드 트리거
                   inputMode="numeric" // 모바일에서 숫자 키패드 표시
                   placeholder="010-0000-0000"
-                  defaultValue={reservation.contact}
+                  maxLength={13}
+                  value={formatContact(reservation.contact ?? "")}
                   onChange={(e) => {
                     setReservation((prev) => ({
                       ...prev,
-                      contact: e.target.value,
+                      contact: e.target.value.replace(/\D/g, ""),
                     }));
                   }}
                 />
@@ -373,11 +379,11 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                 <input
                   id="instagram"
                   placeholder="@를 뺀 아이디를 입력해주세요"
-                  defaultValue={reservation.instagram}
+                  value={reservation.instagram}
                   onChange={(e) => {
                     setReservation((prev) => ({
                       ...prev,
-                      instagram: e.target.value.toLowerCase(),
+                      instagram: e.target.value.toLowerCase().trim(),
                     }));
                   }}
                 />
@@ -392,7 +398,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                   inputMode="numeric" // 모바일에서 숫자 키패드 표시
                   maxLength={4}
                   placeholder="숫자 4자리를 입력해주세요"
-                  defaultValue={reservation.password}
+                  value={reservation.password}
                   onChange={(e) => {
                     setReservation((prev) => ({
                       ...prev,
