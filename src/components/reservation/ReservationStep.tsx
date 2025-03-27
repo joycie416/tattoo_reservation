@@ -97,6 +97,9 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
   const contactReg = /^\d{11}$/;
   const instagramReg = /^(?!.*\.\.)(?!.*\.$)[a-z0-9._]{5,30}$/;
   const passwordReg = /^\d{4}$/;
+  const isAllChecked = () => {
+    return checks.every((check) => check);
+  };
   const isLastStepFilled =
     !!reservation.name &&
     !!reservation.contact &&
@@ -104,10 +107,8 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
     !!reservation.instagram &&
     instagramReg.test(reservation.instagram) &&
     !!reservation.password &&
-    passwordReg.test(reservation.password);
-  const isAllChecked = () => {
-    return checks.every((check) => check);
-  };
+    passwordReg.test(reservation.password) &&
+    isAllChecked();
 
   const onConfirmClick = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>

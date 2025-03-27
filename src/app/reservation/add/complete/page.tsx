@@ -5,7 +5,7 @@ import React from "react";
 const ReservationAddCompletePage = () => {
   return (
     <>
-      <PageHeader title="예약 완료" backTo="/reservation/add" />
+      <PageHeader title="예약 문의" backTo="/reservation/add" />
 
       <div className="container">
         <CompletePage />

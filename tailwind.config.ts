@@ -49,6 +49,10 @@ const config: Config = {
         "subtitle-md": ["14px", { fontWeight: "500" }],
 
         body: ["14px", { fontWeight: "400" }],
+
+        "button-xs": ["12px", { fontWeight: "500" }],
+        "button-sm": ["14px", { fontWeight: "500" }],
+        "button-md": ["16px", { fontWeight: "600" }],
       },
     },
   },
