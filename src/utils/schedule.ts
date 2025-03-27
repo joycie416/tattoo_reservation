@@ -158,3 +158,13 @@ export const sortSchedule = (
 
   return [availableDates, sortedSchedule];
 };
+
+export const formatContact = (contact: string): string => {
+  if (contact.length <= 3) return contact;
+  if (contact.length <= 7) {
+    return contact.slice(0, 3) + "-" + contact.slice(3);
+  }
+  return (
+    contact.slice(0, 3) + "-" + contact.slice(3, 7) + "-" + contact.slice(7)
+  );
+};
