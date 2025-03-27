@@ -11,9 +11,7 @@ const ReservationStepPage = ({
     <>
       <PageHeader
         title="예약 문의"
-        backTo={
-          step === "1" ? "/reservation" : `/reservation/add/${Number(step) - 1}`
-        }
+        backTo={step === "1" ? "/" : `/reservation/add/${Number(step) - 1}`}
       />
       <div className="container">
         <ReservationStep step={step} />

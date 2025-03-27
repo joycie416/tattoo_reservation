@@ -10,6 +10,24 @@ const colors = {
   font5: "#FF86A2",
   font4: "#FFE9EE",
 };
+const colors2 = {
+  gray: {
+    "10": "#F6F6F6", //button
+    "30": "#ECECEC", //background
+    "50": "#D9D9D9", //guide
+    "70": "#636363", //font2
+    "100": "#222", //font1
+  },
+  red: {
+    "20": "#FFE9EE",
+    "50": "#FF86A2",
+    "100": "#FF003C",
+  },
+  blue: {
+    "20": "#E9F4FF",
+    "50": "#86C3FF",
+  },
+};
 
 const config: Config = {
   darkMode: ["class"],
@@ -20,13 +38,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: colors,
+      colors: { ...colors, ...colors2 },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "8px",
+        md: "4px",
       },
-      borderColor: colors,
+      borderColor: { ...colors, ...colors2 },
       width: {
         mobile: "var(--mobile-width)",
       },
