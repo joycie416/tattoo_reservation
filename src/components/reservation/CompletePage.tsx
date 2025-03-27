@@ -11,8 +11,10 @@ const CompletePage = () => {
   const [reservation] = useConditionalDateAtom();
 
   if (!reservation.name) {
-    alert("페이지가 만료되어 메인 화면으로 이동합니다.");
-    router.replace("/");
+    if (typeof window !== "undefined") {
+      alert("페이지가 만료되어 메인 화면으로 이동합니다.");
+      router.replace("/");
+    }
   }
 
   return (
