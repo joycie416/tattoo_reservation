@@ -1,4 +1,4 @@
-import ReservationSearchForm from "@/components/reservation/ReservationSearchForm";
+import ReservationSearchForm from "@/components/search/ReservationSearchForm";
 import PageHeader from "@/components/shared/PageHeader";
 import React from "react";
 

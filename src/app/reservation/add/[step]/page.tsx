@@ -1,4 +1,4 @@
-import ReservationStep from "@/components/reservation/ReservationStep";
+import ReservationStep from "@/components/reservation/ReservationStepForm";
 import PageHeader from "@/components/shared/PageHeader";
 import React from "react";
 

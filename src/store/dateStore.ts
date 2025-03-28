@@ -20,6 +20,7 @@ export type commmonDateType = {
   size?: string;
   type?: string;
   description?: string;
+  image_num?: number;
   images?: File[];
   name?: string;
   contact?: string;
@@ -52,5 +53,6 @@ export const reservationStore = atomWithReset<commmonDateType>({
   size: "",
   type: "own",
   description: "",
+  image_num: 0,
   images: [],
 });

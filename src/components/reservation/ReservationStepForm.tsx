@@ -54,16 +54,24 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
         alert("이미지는 최대 4장까지 첨부 가능합니다.");
         return;
       }
-      setReservation((prev) => ({ ...prev, images: files }));
+      setReservation((prev) => ({
+        ...prev,
+        image_num: files.length,
+        images: files,
+      }));
     }
     // 취소시 기존 이미지 파일 유지
   };
 
   const handleImageDelete = (i: number) => {
-    setReservation((prev) => ({
-      ...prev,
-      images: (prev.images ?? []).filter((_, idx) => idx !== i),
-    }));
+    setReservation((prev) => {
+      const newImages = (prev.images ?? []).filter((_, idx) => idx !== i);
+      return {
+        ...prev,
+        image_num: newImages.length,
+        images: newImages,
+      };
+    });
   };
 
   const handleDateClick = (curDate: string) => {
@@ -216,9 +224,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                 </div>
                 {(reservation.images ?? []).map((file, i) => (
                   <div
-                    className={`w-[84px] h-[84px] bg-[url(${URL.createObjectURL(
-                      file
-                    )})] rounded-[8px] overflow-hidden relative`}
+                    className={`w-[84px] h-[84px] rounded-[8px] overflow-hidden relative`}
                     key={`image_${i}`}
                   >
                     <Image
