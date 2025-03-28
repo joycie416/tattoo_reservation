@@ -54,16 +54,24 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
         alert("이미지는 최대 4장까지 첨부 가능합니다.");
         return;
       }
-      setReservation((prev) => ({ ...prev, images: files }));
+      setReservation((prev) => ({
+        ...prev,
+        image_num: files.length,
+        images: files,
+      }));
     }
     // 취소시 기존 이미지 파일 유지
   };
 
   const handleImageDelete = (i: number) => {
-    setReservation((prev) => ({
-      ...prev,
-      images: (prev.images ?? []).filter((_, idx) => idx !== i),
-    }));
+    setReservation((prev) => {
+      const newImages = (prev.images ?? []).filter((_, idx) => idx !== i);
+      return {
+        ...prev,
+        image_num: newImages.length,
+        images: newImages,
+      };
+    });
   };
 
   const handleDateClick = (curDate: string) => {
@@ -156,34 +164,34 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
 
             <div className="flex flex-col gap-4 mb-8">
               <div className="flex flex-col gap-2">
-                <label htmlFor="part" className="text-subtitle-md">
+                <label htmlFor="size" className="text-subtitle-md">
                   생각하는 사이즈를 말씀해주세요.
                 </label>
                 <input
-                  id="part"
+                  id="size"
                   placeholder="예시) 10cm, 신용카드 세로 크기 등"
-                  defaultValue={reservation.part}
+                  defaultValue={reservation.size}
                   onChange={(e) =>
                     setReservation((prev) => ({
                       ...prev,
-                      part: e.target.value,
+                      size: e.target.value,
                     }))
                   }
                   className="placeholder:text-font2 placeholder:text-body"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="size" className="text-subtitle-md">
-                  사이즈
+                <label htmlFor="part" className="text-subtitle-md">
+                  작업할 부위를 말씀해주세요.
                 </label>
                 <input
-                  id="size"
+                  id="part"
                   placeholder="예시) 오른팔 상박, 왼쪽 어깨 뒷편 등"
-                  defaultValue={reservation.size}
+                  defaultValue={reservation.part}
                   onChange={(e) =>
                     setReservation((prev) => ({
                       ...prev,
-                      size: e.target.value,
+                      part: e.target.value,
                     }))
                   }
                   className="placeholder:text-font2 placeholder:text-body"
@@ -216,9 +224,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                 </div>
                 {(reservation.images ?? []).map((file, i) => (
                   <div
-                    className={`w-[84px] h-[84px] bg-[url(${URL.createObjectURL(
-                      file
-                    )})] rounded-[8px] overflow-hidden relative`}
+                    className={`w-[84px] h-[84px] rounded-[8px] overflow-hidden relative`}
                     key={`image_${i}`}
                   >
                     <Image
@@ -371,7 +377,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
               <div className="flex flex-col gap-2">
                 <div className="space-y-1">
                   <label htmlFor="instagram" className="text-subtitle-md">
-                    인스타 ID를 입력해주세요.
+                    인스타그램 ID를 입력해주세요.
                   </label>
                   <p className="text-subtitle-sm text-font3">
                     * 예약 시 DM을 통해 안내가 갈 예정입니다.

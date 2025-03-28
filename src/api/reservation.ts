@@ -1,30 +1,37 @@
 import { UserReservation } from "@/types/supabase";
 import browserClient from "@/utils/supabase/client";
 
-export const getUserReservations = async (name?: string, contact?: string) => {
-  if (!name && !contact) {
-    const { data, error } = await browserClient
-      .from("user_reservations")
-      .select("id, name")
-      .order("created_at");
+export const getUserReservations = async (
+  name: string,
+  instagram: string,
+  password: string
+) => {
+  console.log("getting data...");
+  console.log(name, instagram, password);
+  // if (!name && !instagram && !password) {
+  //   const { data, error } = await browserClient
+  //     .from("user_reservations")
+  //     .select()
+  //     .order("created_at");
 
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
+  //   if (error) {
+  //     throw new Error(error.message);
+  //   }
+  //   return data;
+  // }
+  // if (name && instagram && password) {
+  const { data, error } = await browserClient
+    .from("user_reservations")
+    .select()
+    .eq("name", name)
+    .eq("instagram", instagram)
+    .eq("password", password)
+    .order("created_at");
+  if (error) {
+    throw new Error(error.message);
   }
-  if (name && contact) {
-    const { data, error } = await browserClient
-      .from("user_reservations")
-      .select("id, name")
-      .eq("name", name)
-      .eq("contact", contact)
-      .order("created_at");
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
-  }
+  return data;
+  // }
 };
 
 export const addUserReservation = async (reservation: UserReservation) => {

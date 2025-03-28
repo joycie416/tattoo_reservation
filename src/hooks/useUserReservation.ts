@@ -8,13 +8,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 // 예약 글 가져오기
-export const useGetUserReservation = (name?: string, contact?: string) => {
+export const useGetUserReservation = (
+  name: string,
+  instagram: string,
+  password: string
+) => {
   return useQuery({
-    queryKey:
-      !name && !contact
-        ? ["user_reservations", "full"]
-        : ["user_reservations", name, contact],
-    queryFn: () => getUserReservations(name, contact),
+    queryKey: ["user_reservations", name, instagram, password],
+    queryFn: () => getUserReservations(name, instagram, password),
+    enabled: !!name && !!instagram && !!password,
   });
 };
 

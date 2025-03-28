@@ -136,6 +136,7 @@ export type Database = {
           date: string
           description: string
           id: string
+          image_num: number
           instagram: string
           modified_at: string
           name: string
@@ -152,6 +153,7 @@ export type Database = {
           date?: string
           description?: string
           id?: string
+          image_num?: number
           instagram?: string
           modified_at?: string
           name?: string
@@ -168,6 +170,7 @@ export type Database = {
           date?: string
           description?: string
           id?: string
+          image_num?: number
           instagram?: string
           modified_at?: string
           name?: string
