@@ -17,7 +17,7 @@ const SearchResultsList = () => {
     instagram: string;
   }>({ name: searchData.name, contact: "", instagram: searchData.instagram });
 
-  const { data: searchResults, isLoading } = useGetUserReservation(
+  const { data: searchResults } = useGetUserReservation(
     searchData.name,
     searchData.instagram,
     searchData.password
@@ -29,10 +29,12 @@ const SearchResultsList = () => {
     }
   }, [searchResults]);
 
-  if (!searchData.name) {
-    alert("올바른 접근이 아닙니다. 예약 확인 페이지로 이동합니다.");
-    router.replace("/search");
-  }
+  useEffect(() => {
+    if (!searchData.name) {
+      alert("올바른 접근이 아닙니다. 예약 확인 페이지로 이동합니다.");
+      router.replace("/search");
+    }
+  }, []);
 
   return (
     <div>
