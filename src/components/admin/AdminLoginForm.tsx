@@ -9,7 +9,7 @@ const AdminLoginForm = () => {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
     const error = await login(data as LoginType);
-    console.log(error);
+    console.error(error);
 
     if (error) {
       alert(`${error.name}: ${error.code}`);

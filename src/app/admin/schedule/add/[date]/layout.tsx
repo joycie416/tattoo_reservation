@@ -12,7 +12,6 @@ const ScheduleAddLayout = async ({
 }: PropsWithChildren<{ params: { date: string } }>) => {
   const queryClient = new QueryClient();
   const [year, month] = params.date.split("-");
-  console.log("schedule add params:", params);
 
   await queryClient.prefetchQuery({
     queryKey: ["schedule", year, month],

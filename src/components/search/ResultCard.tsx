@@ -1,11 +1,16 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Reservation } from "@/types/supabase";
 import { parseReservation } from "@/utils/reservation";
 import browserClient from "@/utils/supabase/client";
+import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 const ResultCard = ({ reservation }: { reservation: Reservation }) => {
+  const [open, setOpen] = useState(false);
+
   const imageUrls = [];
   for (let i = 0; i < reservation.image_num; i++) {
     browserClient.storage
@@ -18,6 +23,16 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
 
   const date = parseReservation(reservation);
 
+  const tattooType = {
+    own: "작업자 도안",
+    custom: "커스텀 타투",
+    coverup: "커버업 타투",
+  };
+  const detailTextStyle = cn("break-word", {
+    "line-clamp-1": !open,
+    "whitespace-pre-line": open,
+  });
+
   return (
     <div className="border border-gray-30 rounded-md">
       <ReservationHeader
@@ -25,34 +40,55 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
         condition={reservation.condition as ConditionKeyType}
       />
 
-      <div className="px-6 py-4 grid grid-cols-[repeat(2,_max-content)] gap-x-6 gap-y-2 text-body">
-        <p>종류</p>
-        <p>{reservation.type}</p>
-        <p>사이즈</p>
-        <p>{reservation.size}</p>
-        <p>부위</p>
-        <p>{reservation.part}</p>
-        <p>세부사항</p>
-        <p>{reservation.description}</p>
-      </div>
-      <p className="col-span-2">첨부사진</p>
-      <div className="w-full overflow-x-scroll mb-8">
-        <div className="w-max flex gap-2">
-          {imageUrls.map((url, i) => (
-            <div
-              className={`w-[84px] h-[84px] rounded-lg overflow-hidden relative`}
-              key={`${reservation.id}_image_${i}`}
-            >
-              <Image
-                src={url}
-                alt={`이미지 미리보기 ${i}`}
-                width={84}
-                height={84}
-                className="w-[84px] h-[84px] object-cover"
-              />
-            </div>
-          ))}
+      <div className="px-4 pt-4 pb-2 space-y-[13px] text-body">
+        <div className="flex space-x-4">
+          <p className="w-12 shrink-0 text-gray-70">종류</p>
+          <p>{tattooType[reservation.type as keyof typeof tattooType]}</p>
         </div>
+        <div className="flex space-x-4">
+          <p className="w-12 shrink-0 text-gray-70">사이즈</p>
+          <p className={detailTextStyle}>{reservation.size}</p>
+        </div>
+        <div className="flex space-x-4">
+          <p className="w-12 shrink-0 text-gray-70">부위</p>
+          <p className={detailTextStyle}>{reservation.part}</p>
+        </div>
+        <div className="flex space-x-4 overflow-hidden">
+          <p className="w-12 shrink-0 text-gray-70">세부사항</p>
+          <p className={detailTextStyle}>{reservation.description}</p>
+        </div>
+      </div>
+      {open && (
+        <div className="px-4 pb-2 space-y-[5px]">
+          <p className="text-body text-gray-70">첨부사진</p>
+          <div className="w-full overflow-x-scroll">
+            <div className="w-max flex gap-2">
+              {imageUrls.map((url, i) => (
+                <div
+                  className={`w-[84px] h-[84px] rounded-lg overflow-hidden relative`}
+                  key={`${reservation.id}_image_${i}`}
+                >
+                  <Image
+                    src={url}
+                    alt={`이미지 미리보기 ${i}`}
+                    width={84}
+                    height={84}
+                    className="w-[84px] h-[84px] object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+      <div onClick={() => setOpen((prev) => !prev)}>
+        <ChevronDown
+          strokeWidth={1.5}
+          color="#636363"
+          className={cn("place-self-center", {
+            "rotate-180": open,
+          })}
+        />
       </div>
     </div>
   );

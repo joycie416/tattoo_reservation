@@ -5,6 +5,9 @@ import { Providers as QueryClientProvider } from "@/providers/QueryClientProvide
 export const metadata: Metadata = {
   title: "enan.tt 예약",
   description: "enan.tt 예약. 홍대, 합정 타투 예약.",
+  openGraph: {
+    description: "enan.tt 예약. 홍대, 합정 타투 예약.",
+  },
 };
 
 export default function RootLayout({
