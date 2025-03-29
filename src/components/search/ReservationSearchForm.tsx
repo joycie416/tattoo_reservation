@@ -43,7 +43,7 @@ const ReservationSearchForm = () => {
       router.push("/search/result");
     }
     if (!!data && data.length === 0) {
-      alert("검색 결과가 없습니다.");
+      alert("등록한 정보를 확인해주세요.");
     }
   }, [data]);
   return (

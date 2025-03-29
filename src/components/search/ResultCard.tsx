@@ -42,25 +42,25 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
 
       <div className="px-4 pt-4 pb-2 space-y-[13px] text-body">
         <div className="flex space-x-4">
-          <p className="w-12 shrink-0">종류</p>
+          <p className="w-12 shrink-0 text-gray-70">종류</p>
           <p>{tattooType[reservation.type as keyof typeof tattooType]}</p>
         </div>
         <div className="flex space-x-4">
-          <p className="w-12 shrink-0">사이즈</p>
+          <p className="w-12 shrink-0 text-gray-70">사이즈</p>
           <p className={detailTextStyle}>{reservation.size}</p>
         </div>
         <div className="flex space-x-4">
-          <p className="w-12 shrink-0">부위</p>
+          <p className="w-12 shrink-0 text-gray-70">부위</p>
           <p className={detailTextStyle}>{reservation.part}</p>
         </div>
         <div className="flex space-x-4 overflow-hidden">
-          <p className="w-12 shrink-0">세부사항</p>
+          <p className="w-12 shrink-0 text-gray-70">세부사항</p>
           <p className={detailTextStyle}>{reservation.description}</p>
         </div>
       </div>
       {open && (
         <div className="px-4 pb-2 space-y-[5px]">
-          <p className="text-body">첨부사진</p>
+          <p className="text-body text-gray-70">첨부사진</p>
           <div className="w-full overflow-x-scroll">
             <div className="w-max flex gap-2">
               {imageUrls.map((url, i) => (
