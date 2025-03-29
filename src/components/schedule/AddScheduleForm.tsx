@@ -30,17 +30,15 @@ const AddScheduleForm = ({ date }: AddScheduleFormProps) => {
   // const { data, isLoading, isError, error } = useGetSchedule(year, month);
   const { data } = useGetSchedule(year, month);
   // const {mutate: editSchedule, isError:isEditError, error: editError} = useEditScheduleMutation(date);
-  const {mutate: editSchedule} = useEditScheduleMutation(date);
-  const scheduledTimes = data?.filter(({full_date}) => full_date === date).map(({ time, id }) => [time, id]) ?? [];
+  const { mutate: editSchedule } = useEditScheduleMutation(date);
+  const scheduledTimes =
+    data
+      ?.filter(({ full_date }) => full_date === date)
+      .map(({ time, id }) => [time, id]) ?? [];
 
   const [times, setTimes] = useState<string[]>(() =>
     scheduledTimes.map(([time]) => time)
   );
-
-  useEffect(() => {
-    console.log('data:', data)
-    console.log('clicked:', times)
-  }, [times])
 
   const handleClick = (time: string) => {
     if (times.includes(time)) {
@@ -58,9 +56,7 @@ const AddScheduleForm = ({ date }: AddScheduleFormProps) => {
       .filter(([time]) => !times.includes(time))
       .map(([, id]) => id);
 
-    console.log("toAdd:", addTimes);
-    console.log("toDelete:", deleteIds);
-    return {addTimes, deleteIds};
+    return { addTimes, deleteIds };
   };
 
   return (

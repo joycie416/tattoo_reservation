@@ -24,10 +24,7 @@ const AddScheduleDrawer = ({ dateInfo, dateIndex }: AddScheuleDrawerProps) => {
   const isToday = currentDate === dateStore.date;
 
   const onClick = () => {
-    console.log("isValidMonth:", isValidMonth);
-
     if (isValidMonth) {
-      console.log("clicked:", currentDate);
       setDate({ ...dateStore, date: currentDate });
     }
   };
