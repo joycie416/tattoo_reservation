@@ -48,11 +48,11 @@ export const useAddNotice = () => {
       }
     },
     onSuccess: (id) => {
-      router.push(`/notice?id=${id}`);
+      router.push(`/notice/${id}}`);
     },
-    onSettled: (id) => {
+    onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ["notice", id],
+        queryKey: ["notice"],
       });
     },
   });

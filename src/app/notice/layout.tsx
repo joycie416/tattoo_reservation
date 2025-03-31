@@ -1,3 +1,9 @@
+import { getFullNotice } from "@/api/notice";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { Metadata } from "next";
 import { ReactNode } from "react";
 
@@ -10,8 +16,18 @@ export const metadata: Metadata = {
   },
 };
 
-const layout = ({ children }: { children: ReactNode }) => {
-  return <div>{children}</div>;
+const layout = async ({ children }: { children: ReactNode }) => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["notice"],
+    queryFn: () => getFullNotice(),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      {children}
+    </HydrationBoundary>
+  );
 };
 
 export default layout;

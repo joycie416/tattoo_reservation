@@ -15,17 +15,21 @@ const colors2 = {
     "10": "#F6F6F6", //button
     "30": "#ECECEC", //background
     "50": "#D9D9D9", //guide
+    "60": "#B3B3B3",
     "70": "#636363", //font2
     "100": "#222", //font1
   },
   red: {
     "20": "#FFE9EE",
+    "30": "#FFDAE3",
     "50": "#FF86A2",
     "100": "#FF003C",
   },
   blue: {
     "20": "#E9F4FF",
+    "30": "#DAEDFF",
     "50": "#86C3FF",
+    "100": "#0381FF",
   },
 };
 

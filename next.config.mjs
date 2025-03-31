@@ -6,7 +6,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "lvyzvqzgcqydicbpxwkt.supabase.co",
         port: "",
-        pathname: "/storage/v1/object/public/user_reservations/**",
+        pathname: "/storage/v1/object/public/**",
       },
     ],
   },

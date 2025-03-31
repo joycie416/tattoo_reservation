@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { useQuery } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
 
 export const getUser = async () => {
@@ -24,7 +25,7 @@ export const login = async ({
   if (error) {
     return { name: error.name, code: error.code };
   }
-  
+
   redirect("/admin");
 };
 
@@ -36,6 +37,13 @@ export const logout = async () => {
     return { name: error.name, code: error.code };
   }
 
-  redirect('/')
+  redirect("/");
   // return null;
+};
+
+export const useAuth = () => {
+  return useQuery({
+    queryKey: ["admin"],
+    queryFn: () => getUser(),
+  });
 };
