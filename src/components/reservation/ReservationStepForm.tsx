@@ -234,7 +234,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       height={84}
                       className="w-[84px] h-[84px] object-cover"
                     />
-                    <div className="w-full h-full bg-gradient-to-b from-black to-transparent absolute top-0 left-0" />
+                    <div className="w-full h-full bg-gradient-to-b from-black/50 to-transparent absolute top-0 left-0" />
                     <button
                       type="button"
                       className="absolute top-1 right-1"

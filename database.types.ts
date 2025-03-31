@@ -89,6 +89,39 @@ export type Database = {
         }
         Relationships: []
       }
+      notice: {
+        Row: {
+          content: string
+          created_at: string
+          fixed: boolean
+          hidden: boolean
+          id: string
+          image_num: number
+          modified_at: string
+          title: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          fixed?: boolean
+          hidden?: boolean
+          id?: string
+          image_num?: number
+          modified_at?: string
+          title?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          fixed?: boolean
+          hidden?: boolean
+          id?: string
+          image_num?: number
+          modified_at?: string
+          title?: string
+        }
+        Relationships: []
+      }
       schedules: {
         Row: {
           contact: string
