@@ -2,8 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { Reservation } from "@/types/supabase";
+import { getPublicUrl } from "@/utils/common";
 import { parseReservation } from "@/utils/reservation";
-import browserClient from "@/utils/supabase/client";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -13,12 +13,7 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
 
   const imageUrls = [];
   for (let i = 0; i < reservation.image_num; i++) {
-    browserClient.storage
-      .from("user_reservations")
-      .getPublicUrl(`${reservation.id}/${i}_${reservation.id}`);
-    imageUrls.push(
-      `https://lvyzvqzgcqydicbpxwkt.supabase.co/storage/v1/object/public/user_reservations/${reservation.id}/${i}_${reservation.id}`
-    );
+    imageUrls.push(getPublicUrl("user_reservations", reservation.id, i));
   }
 
   const [registerDate, wantDate] = parseReservation(reservation);

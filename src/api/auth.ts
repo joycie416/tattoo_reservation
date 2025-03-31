@@ -24,7 +24,7 @@ export const login = async ({
   if (error) {
     return { name: error.name, code: error.code };
   }
-  
+
   redirect("/admin");
 };
 
@@ -36,6 +36,6 @@ export const logout = async () => {
     return { name: error.name, code: error.code };
   }
 
-  redirect('/')
+  redirect("/");
   // return null;
 };
