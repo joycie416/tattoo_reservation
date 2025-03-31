@@ -6,7 +6,7 @@ export const getUserReservations = async (
   instagram: string,
   password: string
 ) => {
-  console.log("getting data...");
+  console.log("Fetching data...");
   // if (!name && !instagram && !password) {
   //   const { data, error } = await browserClient
   //     .from("user_reservations")

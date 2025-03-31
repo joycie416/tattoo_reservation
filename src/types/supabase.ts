@@ -7,3 +7,4 @@ export type UserReservation = Omit<
   "id" | "created_at" | "modified_at"
 >;
 export type ConfirmedReservation = Tables<"confirmed_reservations">;
+export type Notice = Tables<"notice">;

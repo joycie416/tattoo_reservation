@@ -21,7 +21,7 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
     );
   }
 
-  const date = parseReservation(reservation);
+  const [registerDate, wantDate] = parseReservation(reservation);
 
   const tattooType = {
     own: "작업자 도안",
@@ -36,11 +36,15 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
   return (
     <div className="border border-gray-30 rounded-md">
       <ReservationHeader
-        date={date}
+        date={registerDate}
         condition={reservation.condition as ConditionKeyType}
       />
 
       <div className="px-4 pt-4 pb-2 space-y-[13px] text-body">
+        <div className="flex space-x-4">
+          <p className="w-12 shrink-0 text-gray-70">신청날짜</p>
+          <p>{wantDate}</p>
+        </div>
         <div className="flex space-x-4">
           <p className="w-12 shrink-0 text-gray-70">종류</p>
           <p>{tattooType[reservation.type as keyof typeof tattooType]}</p>
@@ -96,7 +100,12 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
 
 export default ResultCard;
 
-type ConditionKeyType = "new" | "checking" | "confirmed" | "canceled";
+type ConditionKeyType =
+  | "new"
+  | "checking"
+  | "confirmed"
+  | "canceled"
+  | "finished";
 type ConditionObjectType = Record<ConditionKeyType, string>;
 const ReservationHeader = ({
   date,
@@ -110,24 +119,28 @@ const ReservationHeader = ({
     checking: "bg-blue-20",
     confirmed: "bg-gray-10",
     canceled: "bg-gray-10",
+    finished: "bg-gray-10",
   };
   const tagBgColor: ConditionObjectType = {
     new: "bg-blue-50",
     checking: "bg-blue-50",
     confirmed: "bg-gray-50",
     canceled: "bg-gray-50",
+    finished: "bg-gray-50",
   };
   const tagTextColor: ConditionObjectType = {
     new: "text-white",
     checking: "text-white",
     confirmed: "text-gray-70",
     canceled: "text-gray-70",
+    finished: "text-gray-70",
   };
   const parseCondition: ConditionObjectType = {
-    new: "예약 접수",
-    checking: "확인 중",
-    confirmed: "접수 완료",
-    canceled: "취소",
+    new: "신규 접수",
+    checking: "예약 확인",
+    confirmed: "예약 완료",
+    canceled: "예약 취소",
+    finished: "작업 완료",
   };
 
   return (
