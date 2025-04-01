@@ -19,7 +19,7 @@ export default function RootLayout({
     <QueryClientProvider>
       <html lang="ko">
         <body
-          className={`bg-blue-100 font-pretendard text-gray-100 tracking-[-0.025em] antialiased`}
+          className={`bg-gray-30 font-pretendard text-gray-100 tracking-[-0.025em] antialiased`}
         >
           <main className="w-full max-w-mobile min-h-screen mx-auto bg-white">
             {children}

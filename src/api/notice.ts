@@ -1,4 +1,5 @@
 import { Notice } from "@/types/supabase";
+import { convertBlobToFile } from "@/utils/common";
 import { getCurrentTime } from "@/utils/schedule";
 import browserClient from "@/utils/supabase/client";
 
@@ -8,7 +9,7 @@ export type NoticeFormType = {
   content: string;
   fixed: boolean;
   hidden: boolean;
-  id?: boolean;
+  id?: string;
 };
 
 export const addNotice = async ({
@@ -32,48 +33,84 @@ export const getFullNotice = async () => {
   const { data, error } = await browserClient
     .from("notice")
     .select()
-    .order("fixed")
-    .order("modified_at", { ascending: false });
+    .order("hidden")
+    .order("fixed", { ascending: false }) // 고정 게시물 상단에 위치
+    .order("modified_at", { ascending: false }); // 오래된 글 아래로
 
   if (error) {
     throw new Error(error.message);
   }
   return data;
 };
-export const getSingleNotice = async (id: string) => {
+export const getSingleNotice = async (
+  id: string
+): Promise<[Notice, File[]]> => {
   const { data, error } = await browserClient
     .from("notice")
     .select()
     .eq("id", id);
+  const { data: imgData, error: imgError } = await browserClient.storage
+    .from("notice")
+    .download(`${id}/0_${id}`);
 
-  if (error) {
-    throw new Error(error.message);
+  if (error || imgError) {
+    throw new Error((error?.message ?? "") + (imgError?.message || ""));
   }
-  return data;
+
+  const imgFile = convertBlobToFile(imgData, id);
+  return [data[0], [imgFile]];
 };
 
-export const updateNotice = async (formData: Partial<Notice>) => {
-  const { error } = await browserClient
+export const updateNotice = async (formData: Omit<NoticeFormType, "image">) => {
+  const { data, error } = await browserClient
     .from("notice")
     .update({
       ...formData,
       modified_at: getCurrentTime()[0],
     })
-    .eq("id", formData.id!);
+    .eq("id", formData.id!)
+    .select();
 
   if (error) {
     throw new Error(error.message);
+  }
+  return data[0].id;
+};
+
+export const deleteNotice = async (id: string) => {
+  const { error } = await browserClient.from("notice").delete().eq("id", id);
+  const { error: imgError } = await browserClient.storage
+    .from("notice")
+    .remove([`${id}/0_${id}`]);
+
+  if (error || imgError) {
+    throw new Error((error?.message ?? "") + (imgError?.message || ""));
   }
   return null;
 };
 
-export const addNoticeImage = async (id: string, image: File[]) => {
+export const addNoticeImage = async (
+  id: string,
+  image: File[],
+  upsert?: boolean
+) => {
   const { error } = await browserClient.storage
     .from("notice")
-    .upload(`${id}/0_${id}`, image[0]);
+    .upload(`${id}/0_${id}`, image[0], { upsert: !!upsert });
   if (error) {
     throw new Error(error.message);
   }
+};
+
+export const getNoticeImage = async (id: string) => {
+  const { data, error } = await browserClient.storage
+    .from("notice")
+    .download(`${id}/0_${id}`);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return convertBlobToFile(data, id);
 };
 
 export const updateFixedHidden = async ({
