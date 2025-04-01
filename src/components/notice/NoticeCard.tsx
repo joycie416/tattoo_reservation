@@ -17,7 +17,7 @@ const NoticeCard = ({ notice }: { notice: Notice }) => {
       })}
     >
       <Image
-        src={imageUrl}
+        src={`${imageUrl}?cache=${crypto.randomUUID()}`}
         alt={`notice_${notice.title}`}
         width={72}
         height={72}

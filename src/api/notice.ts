@@ -79,9 +79,12 @@ export const updateNotice = async (formData: Omit<NoticeFormType, "image">) => {
 
 export const deleteNotice = async (id: string) => {
   const { error } = await browserClient.from("notice").delete().eq("id", id);
+  const { error: imgError } = await browserClient.storage
+    .from("notice")
+    .remove([`${id}/0_${id}`]);
 
-  if (error) {
-    throw new Error(error.message);
+  if (error || imgError) {
+    throw new Error((error?.message ?? "") + (imgError?.message || ""));
   }
   return null;
 };

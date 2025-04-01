@@ -104,7 +104,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
         </div>
         <div className="w-full aspect-square drag-forbidden">
           <Image
-            src={imageUrl}
+            src={`${imageUrl}?cache=${crypto.randomUUID()}`}
             alt="공지사항 이미지"
             width={1000}
             height={1000}

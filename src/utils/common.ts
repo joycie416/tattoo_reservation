@@ -6,5 +6,5 @@ export const getPublicUrl = (bucket: string, id: string, index: number) => {
 };
 
 export const convertBlobToFile = (blob: Blob, id: string) => {
-  return new File([blob], `0_${id}`);
+  return new File([blob], `0_${id}${crypto.randomUUID()}`);
 };
