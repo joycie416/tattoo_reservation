@@ -1,11 +1,15 @@
 "use client";
 
 import { NoticeFormType } from "@/api/notice";
-import { useAddNotice } from "@/hooks/useNotice";
+import {
+  useAddNotice,
+  useGetSingleNotice,
+  useUpdateNotice,
+} from "@/hooks/useNotice";
 import { cn } from "@/lib/utils";
 import { Plus, X } from "lucide-react";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 type AddNoticeFormProps = {
   searchParams: { id?: string; modify?: string };
@@ -22,7 +26,21 @@ const AddNoticeForm = ({
     fixed: false,
     hidden: false,
   });
-  const { mutate: addNotice, isPending } = useAddNotice();
+  const { data: writenData } = useGetSingleNotice(id ?? "");
+  const { mutate: addNotice } = useAddNotice();
+  const { mutate: updateNotice } = useUpdateNotice();
+
+  useEffect(() => {
+    if (modify == "true") {
+      setNotice({
+        title: writenData?.[0].title ?? "",
+        content: writenData?.[0].content ?? "",
+        image: writenData?.[1] ?? [],
+        fixed: !!writenData?.[0].fixed,
+        hidden: !!writenData?.[0].hidden,
+      });
+    }
+  }, [writenData]);
 
   const imgRef = useRef<HTMLInputElement>(null);
   const handleImageChange = () => {
@@ -56,12 +74,14 @@ const AddNoticeForm = ({
         alert("모두 입력해주세요.");
         return;
       }
+      if (modify == "true" && !!id) {
+        console.log("수정");
+        updateNotice({ ...notice, id });
+        return;
+      }
+      console.log("추가");
       addNotice(notice);
     };
-
-  if (isPending) {
-    console.log("pending.......");
-  }
 
   return (
     <div>
@@ -150,7 +170,7 @@ const AddNoticeForm = ({
             }
           )}
         >
-          다음
+          확인
         </button>
       </div>
     </div>
