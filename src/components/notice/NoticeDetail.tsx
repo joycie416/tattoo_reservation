@@ -14,10 +14,10 @@ import {
 } from "@/hooks/useNotice";
 import { useEffect, useState } from "react";
 import { getPublicUrl } from "@/utils/common";
-import { useAuth } from "@/hooks/useAuth";
 import Toggle from "../shared/Toggle";
 import { cn } from "@/lib/utils";
 import DataLoading from "../shared/DataLoading";
+import { useAdmin } from "@/hooks/useAdmin";
 
 const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
   const queryClient = useQueryClient();
@@ -50,7 +50,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
     if (!cachedNotice?.title && !!noticeData) setNotice(noticeData[0]);
   }, [noticeData]);
 
-  const { data: admin } = useAuth();
+  const admin = useAdmin();
 
   const handleFixedToggleClick = () => {
     const { fixed, hidden } = fixedHidden;
@@ -116,7 +116,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
             {notice.content}
           </p>
         </div>
-        {admin && (
+        {!!admin && (
           <>
             <hr className="h-[3px] border-0 bg-gray-10" />
             <div className="px-6 py-2 grid grid-cols-2 gap-[3px] text-body font-medium text-gray-70">
