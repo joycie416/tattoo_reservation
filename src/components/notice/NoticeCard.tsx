@@ -23,7 +23,7 @@ const NoticeCard = ({ notice }: { notice: Notice }) => {
         height={72}
         className="w-[72px] h-[72px] shrink-0 border border-gray-50 rounded-md object-cover"
       />
-      <div className="flex gap-[9px] items-center">
+      <div className="w-full flex gap-[9px] justify-between items-center">
         <div className="w-full overflow-hidden">
           <h3
             className={cn("break-all line-clamp-1", {
