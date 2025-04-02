@@ -1,10 +1,13 @@
+import AddNoticeButton from "@/components/notice/AddNoticeButton";
 import NoticeList from "@/components/notice/NoticeList";
-import PageHeader from "@/components/shared/PageHeader";
+import PageHeaderWithButton from "@/components/shared/PageHeaderWithButton";
 
 const NoticeListPage = () => {
   return (
     <>
-      <PageHeader title="소식 · 이벤트" backTo="/" />
+      <PageHeaderWithButton title="소식 · 이벤트" backTo="/">
+        <AddNoticeButton />
+      </PageHeaderWithButton>
       <NoticeList />
     </>
   );

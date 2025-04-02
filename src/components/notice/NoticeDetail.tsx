@@ -4,7 +4,6 @@ import { Notice } from "@/types/supabase";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import LeftArrow from "/public/icons/left-arrow.svg";
 import SeeMore from "/public/icons/ellipsis-vertical.svg";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
@@ -18,6 +17,7 @@ import Toggle from "../shared/Toggle";
 import { cn } from "@/lib/utils";
 import DataLoading from "../shared/DataLoading";
 import { useAdmin } from "@/hooks/useAdmin";
+import PageHeaderWithButton from "../shared/PageHeaderWithButton";
 
 const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
   const queryClient = useQueryClient();
@@ -64,15 +64,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
 
   return (
     <>
-      <header className="w-full h-[59px] sticky top-0 flex justify-center items-center bg-white border-b-[3px] border-background text-font1 text-title-lg text-center relative z-10">
-        <Link href={"/notice"} className="absolute left-5">
-          <Image
-            src={LeftArrow}
-            alt="이전 페이지로"
-            className="w-[28px] h-[29px]"
-          />
-        </Link>
-        소식 · 이벤트
+      <PageHeaderWithButton title="소식 · 이벤트" backTo="/notice">
         <Popover>
           <PopoverTrigger className="absolute right-4">
             <Image
@@ -92,7 +84,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
             </button>
           </PopoverContent>
         </Popover>
-      </header>
+      </PageHeaderWithButton>
       <div>
         <div className="p-6 flex gap-2 justify-between items-center">
           <h3 className="text-title-md leading-[100%] break-all line-clamp-1">
