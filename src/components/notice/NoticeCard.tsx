@@ -1,3 +1,5 @@
+"use client";
+
 import { Notice } from "@/types/supabase";
 import { getPublicUrl } from "@/utils/common";
 import Image from "next/image";
@@ -5,10 +7,13 @@ import PushPinFixed from "/public/icons/pushpin-fixed.svg";
 import PushPinUnfixed from "/public/icons/pushpin-unfixed.svg";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useAdmin } from "@/hooks/useAdmin";
 
 const NoticeCard = ({ notice }: { notice: Notice }) => {
+  // 클라이언트 컴포넌트 내부에 작성되어 있어 클라이언트 컴포넌트임.
+  const admin = useAdmin();
   const imageUrl = getPublicUrl("notice", notice.id, 0);
-
+  console.log("Card User:", admin?.user_metadata.role);
   return (
     <Link
       href={`/notice/${notice.id}`}
@@ -23,7 +28,7 @@ const NoticeCard = ({ notice }: { notice: Notice }) => {
         height={72}
         className="w-[72px] h-[72px] shrink-0 border border-gray-50 rounded-md object-cover"
       />
-      <div className="flex gap-[9px] items-center">
+      <div className="w-full flex gap-[9px] justify-between items-center">
         <div className="w-full overflow-hidden">
           <h3
             className={cn("break-all line-clamp-1", {
@@ -46,6 +51,7 @@ const NoticeCard = ({ notice }: { notice: Notice }) => {
         <Image
           src={notice.fixed ? PushPinFixed : PushPinUnfixed}
           alt="고정핀"
+          className={`${!!admin || notice.fixed || "invisible"}`} // 관리자 X, 고정안됨 : 공간은 유지
         />
       </div>
     </Link>
