@@ -13,7 +13,7 @@ const NoticeCard = ({ notice }: { notice: Notice }) => {
   // 클라이언트 컴포넌트 내부에 작성되어 있어 클라이언트 컴포넌트임.
   const admin = useAdmin();
   const imageUrl = getPublicUrl("notice", notice.id, 0);
-  console.log("Card User:", admin?.user_metadata.role);
+
   return (
     <Link
       href={`/notice/${notice.id}`}
