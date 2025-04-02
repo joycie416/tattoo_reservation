@@ -23,7 +23,7 @@ body {
   }
 
   input {
-    @apply px-[14px] py-4 border border-background rounded-[4px] text-body-md placeholder-font2;
+    @apply px-[14px] py-4 border border-background rounded-[4px] text-body-md placeholder:text-font2;
   }
 
   h3 {
