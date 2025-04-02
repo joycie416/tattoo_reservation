@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const AdminPage = async () => {
   return (
-    <div className="container flex bg-background">
+    <div className="container flex">
       <AdminSigninForm />
     </div>
   );
