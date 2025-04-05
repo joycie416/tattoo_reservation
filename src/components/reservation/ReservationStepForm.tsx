@@ -177,7 +177,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       size: e.target.value,
                     }))
                   }
-                  className="placeholder:text-font2 placeholder:text-body"
+                  className="placeholder:text-font2 placeholder:text-body-md"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -194,7 +194,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                       part: e.target.value,
                     }))
                   }
-                  className="placeholder:text-font2 placeholder:text-body"
+                  className="placeholder:text-font2 placeholder:text-body-md"
                 />
               </div>
             </div>
@@ -258,7 +258,7 @@ const ReservationStep = ({ step }: ReservationStepProps) => {
                   description: textareaRef.current?.value ?? "",
                 }))
               }
-              className="w-full min-h-[160px] p-4 mb-4 resize-none border border-backgound rounded-[4px] text-body placeholder:text-font2 placeholder:text-body"
+              className="w-full min-h-[160px] p-4 mb-4 resize-none border border-backgound rounded-[4px] text-body-md placeholder:text-font2 placeholder:text-body-md"
             />
 
             <div className="w-full py-[6px] bg-white">

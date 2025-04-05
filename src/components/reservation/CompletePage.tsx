@@ -50,18 +50,18 @@ const CompletePage = () => {
       </div>
       <div className="pt-6 pb-4">
         <p className="text-title-md mb-2">예약자 정보</p>
-        <p className="text-body mb-1">
+        <p className="text-body-md mb-1">
           * 자세한 정보는 ‘내 예약 확인하기’ 로 확인 가능합니다.
         </p>
         <div className="px-6 py-4 grid grid-cols-[repeat(2,_max-content)] gap-x-6 gap-y-2 bg-button rounded-[4px]">
-          <p className="text-body text-font2">성함</p>
-          <p className="text-body">{reservation.name}</p>
-          <p className="text-body text-font2">연락처</p>
-          <p className="text-body">
+          <p className="text-body-md text-font2">성함</p>
+          <p className="text-body-md">{reservation.name}</p>
+          <p className="text-body-md text-font2">연락처</p>
+          <p className="text-body-md">
             {formatContact(reservation.contact ?? "")}
           </p>
-          <p className="text-body text-font2">인스타 ID</p>
-          <p className="text-body">{reservation.instagram}</p>
+          <p className="text-body-md text-font2">인스타 ID</p>
+          <p className="text-body-md">{reservation.instagram}</p>
         </div>
       </div>
       <div className="w-full flex flex-col">

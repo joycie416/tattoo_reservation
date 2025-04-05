@@ -69,8 +69,8 @@ const config: Config = {
         "subtitle-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }],
         "subtitle-md": ["14px", { fontWeight: "500" }],
 
-        "body-md": ["14px", { fontWeight: "400" }],
         "body-sm": ["12px", { fontWeight: "400" }],
+        "body-md": ["14px", { fontWeight: "400" }],
 
         "button-xs": ["12px", { fontWeight: "500" }],
         "button-sm": ["14px", { fontWeight: "500" }],
