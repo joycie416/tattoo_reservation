@@ -13,8 +13,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <QueryClientProvider>
@@ -26,6 +28,7 @@ export default function RootLayout({
             <main className="w-full max-w-mobile min-h-screen mx-auto bg-white">
               {children}
             </main>
+            {modal}
           </body>
         </html>
       </AdminProvider>

@@ -8,7 +8,6 @@ const SearchResultPage = () => {
       <div className="container min-h-[calc(100vh-59px)] px-0">
         <SearchResultsList />
       </div>
-      ;
     </>
   );
 };

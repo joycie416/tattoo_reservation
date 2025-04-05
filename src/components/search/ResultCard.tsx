@@ -6,6 +6,7 @@ import { getPublicUrl } from "@/utils/common";
 import { parseReservation } from "@/utils/reservation";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const ResultCard = ({ reservation }: { reservation: Reservation }) => {
@@ -67,13 +68,20 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
                   className={`w-[84px] h-[84px] rounded-lg overflow-hidden relative`}
                   key={`${reservation.id}_image_${i}`}
                 >
-                  <Image
-                    src={url}
-                    alt={`이미지 미리보기 ${i}`}
-                    width={84}
-                    height={84}
-                    className="w-[84px] h-[84px] object-cover"
-                  />
+                  <Link
+                    href={{
+                      pathname: `/search/result/images`,
+                      query: { id: reservation.id, index: i },
+                    }}
+                  >
+                    <Image
+                      src={url}
+                      alt={`이미지 미리보기 ${i}`}
+                      width={84}
+                      height={84}
+                      className="w-[84px] h-[84px] object-cover"
+                    />
+                  </Link>
                 </div>
               ))}
             </div>
