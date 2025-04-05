@@ -41,15 +41,17 @@ const SearchResultsList = () => {
       <div className="p-6 space-y-2">
         <div className="space-y-4">
           <h3 className="text-title-md">예약 정보</h3>
-          <p className="text-body">* 예약 접수 시 입력한 고객님 정보입니다.</p>
+          <p className="text-body-md">
+            * 예약 접수 시 입력한 고객님 정보입니다.
+          </p>
         </div>
         <div className="px-6 py-4 grid grid-cols-[repeat(2,_max-content)] gap-x-6 gap-y-2 bg-button rounded-md">
-          <p className="text-body text-font2">성함</p>
-          <p className="text-body">{userInfo.name}</p>
-          <p className="text-body text-font2">연락처</p>
-          <p className="text-body">{formatContact(userInfo.contact)}</p>
-          <p className="text-body text-font2">인스타 ID</p>
-          <p className="text-body">{userInfo.instagram}</p>
+          <p className="text-body-md text-font2">성함</p>
+          <p className="text-body-md">{userInfo.name}</p>
+          <p className="text-body-md text-font2">연락처</p>
+          <p className="text-body-md">{formatContact(userInfo.contact)}</p>
+          <p className="text-body-md text-font2">인스타 ID</p>
+          <p className="text-body-md">{userInfo.instagram}</p>
         </div>
       </div>
       <hr className="h-[3px] border-0 bg-gray-10" />

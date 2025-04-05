@@ -75,7 +75,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
               className="w-6 h-6"
             />
           </PopoverTrigger>
-          <PopoverContent className="w-fit px-3 py-2 mt-[13px] flex flex-col gap-2 text-body text-gray-70 border-gray-30 rounded-md shadow-none">
+          <PopoverContent className="w-fit px-3 py-2 mt-[13px] flex flex-col gap-2 text-body-md text-gray-70 border-gray-30 rounded-md shadow-none">
             <Link href={`/notice/add?id=${noticeId}&modify=${true}`}>
               수정하기
             </Link>
@@ -90,7 +90,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
           <h3 className="text-title-md leading-[100%] break-all line-clamp-1">
             {notice.title}
           </h3>
-          <p className="text-body-sm text-gray-70 leading-[100%]">
+          <p className="text-body-md-sm text-gray-70 leading-[100%]">
             {notice.modified_at?.split("T")[0].replaceAll("-", ".") ?? ""}
           </p>
         </div>
@@ -103,7 +103,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
             className="w-full h-full object-cover drag-forbidden"
           />
         </div>
-        <div className="p-6 text-body">
+        <div className="p-6 text-body-md">
           <p className="break-all whitespace-pre-line drag-forbidden">
             {notice.content}
           </p>
@@ -111,7 +111,7 @@ const NoticeDetail = ({ noticeId }: { noticeId: string }) => {
         {!!admin && (
           <>
             <hr className="h-[3px] border-0 bg-gray-10" />
-            <div className="px-6 py-2 grid grid-cols-2 gap-[3px] text-body font-medium text-gray-70">
+            <div className="px-6 py-2 grid grid-cols-2 gap-[3px] text-body-md font-medium text-gray-70">
               <div
                 onClick={() => {
                   setFixedHidden((prev) => ({ ...prev, fixed: !prev.fixed }));

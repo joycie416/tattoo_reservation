@@ -66,7 +66,7 @@ const ReservationSearchForm = () => {
                   return newFilled;
                 });
               }}
-              className="w-full placeholder:text-gray-70 placeholder:text-body"
+              className="w-full placeholder:text-gray-70 placeholder:text-body-md"
             />
           </div>
           <div className="space-y-2">
@@ -83,7 +83,7 @@ const ReservationSearchForm = () => {
                   return newFilled;
                 });
               }}
-              className="w-full placeholder:text-gray-70 placeholder:text-body"
+              className="w-full placeholder:text-gray-70 placeholder:text-body-md"
             />
           </div>
           <div className="space-y-2">
@@ -106,7 +106,7 @@ const ReservationSearchForm = () => {
                   return newFilled;
                 });
               }}
-              className="w-full placeholder:text-gray-70 placeholder:text-body"
+              className="w-full placeholder:text-gray-70 placeholder:text-body-md"
             />
           </div>
         </div>

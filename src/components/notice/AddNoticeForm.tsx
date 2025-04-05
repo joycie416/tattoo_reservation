@@ -154,7 +154,7 @@ const AddNoticeForm = ({
             onChange={(e) =>
               setNotice((prev) => ({ ...prev, content: e.target.value }))
             }
-            className="w-full min-h-[287px] p-4 mb-4 resize-none border border-backgound rounded-[4px] text-body placeholder:text-font2 placeholder:text-body"
+            className="w-full min-h-[287px] p-4 mb-4 resize-none border border-backgound rounded-[4px] text-body-md placeholder:text-font2 placeholder:text-body-md"
           />
         </div>
       </form>

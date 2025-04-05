@@ -35,7 +35,7 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
         condition={reservation.condition as ConditionKeyType}
       />
 
-      <div className="px-4 pt-4 pb-2 space-y-[13px] text-body">
+      <div className="px-4 pt-4 pb-2 space-y-[13px] text-body-md">
         <div className="flex space-x-4">
           <p className="w-12 shrink-0 text-gray-70">신청날짜</p>
           <p>{wantDate}</p>
@@ -58,10 +58,10 @@ const ResultCard = ({ reservation }: { reservation: Reservation }) => {
         </div>
       </div>
       {open && (
-        <div className="px-4 pb-2 space-y-[5px]">
-          <p className="text-body text-gray-70">첨부사진</p>
+        <div className="pb-2 space-y-[5px]">
+          <p className="px-4 text-body-md text-gray-70">첨부사진</p>
           <div className="w-full overflow-x-scroll">
-            <div className="w-max flex gap-2">
+            <div className="w-max px-4 flex gap-2">
               {imageUrls.map((url, i) => (
                 <div
                   className={`w-[84px] h-[84px] rounded-lg overflow-hidden relative`}
@@ -98,8 +98,8 @@ export default ResultCard;
 type ConditionKeyType =
   | "new"
   | "checking"
-  | "confirmed"
   | "canceled"
+  | "confirmed"
   | "finished";
 type ConditionObjectType = Record<ConditionKeyType, string>;
 const ReservationHeader = ({
@@ -112,30 +112,30 @@ const ReservationHeader = ({
   const bgColor: ConditionObjectType = {
     new: "bg-blue-20",
     checking: "bg-blue-20",
-    confirmed: "bg-gray-10",
     canceled: "bg-gray-10",
+    confirmed: "bg-gray-10",
     finished: "bg-gray-10",
   };
   const tagBgColor: ConditionObjectType = {
     new: "bg-blue-50",
-    checking: "bg-blue-50",
-    confirmed: "bg-gray-50",
-    canceled: "bg-gray-50",
+    checking: "bg-blue-100",
+    canceled: "bg-red-30",
+    confirmed: "bg-blue-30",
     finished: "bg-gray-50",
   };
   const tagTextColor: ConditionObjectType = {
     new: "text-white",
     checking: "text-white",
-    confirmed: "text-gray-70",
-    canceled: "text-gray-70",
+    canceled: "text-red-100",
+    confirmed: "text-blue-100",
     finished: "text-gray-70",
   };
   const parseCondition: ConditionObjectType = {
-    new: "신규 접수",
+    new: "예약 접수",
     checking: "예약 확인",
-    confirmed: "예약 완료",
     canceled: "예약 취소",
-    finished: "작업 완료",
+    confirmed: "예약 완료",
+    finished: "진행 완료",
   };
 
   return (
@@ -143,7 +143,7 @@ const ReservationHeader = ({
       className={`h-10 pl-4 pr-[10px] py-[10px] flex justify-between items-center ${bgColor[condition]}`}
     >
       <p
-        className={cn("text-body", {
+        className={cn("text-body-md", {
           "text-gray-70": condition === "confirmed" || condition === "canceled",
         })}
       >
