@@ -1,6 +1,6 @@
-import { Reservation } from "@/types/supabase";
+import ImageCarousel from "@/components/search/ImageCarousel";
+import { getPublicUrl } from "@/utils/common";
 import { createClient } from "@/utils/supabase/server";
-import { QueryClient } from "@tanstack/react-query";
 
 const ResultImagePage = async ({
   searchParams: { id, index },
@@ -14,11 +14,13 @@ const ResultImagePage = async ({
     .eq("id", id)
     .single();
   const imageUrls = [];
-  console.log(data);
+  for (let i = 0; i < (data?.image_num ?? 0); i++) {
+    imageUrls.push(getPublicUrl("user_reservations", id, i));
+  }
 
   return (
-    <div className="w-full h-[100vh] fixed top-0 bg-gray-70/60 text-white z-20">
-      예약 id, index: {id}, {index}
+    <div className="fixed top-0 z-20">
+      <ImageCarousel startIndex={index} imageUrls={imageUrls} />;
     </div>
   );
 };
