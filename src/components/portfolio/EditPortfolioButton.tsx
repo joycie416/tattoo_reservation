@@ -17,6 +17,7 @@ const EditPortfolioButton = () => {
   const fixedPortfolios = portfolios
     .filter((portfolio) => portfolio.fixed)
     .map((portfolio) => portfolio.id);
+
   const [open, setOpen] = useState(false);
   const setCheck = useSetAtom(checkedPortfolioStore);
   const beginCheck = () => {
@@ -25,14 +26,14 @@ const EditPortfolioButton = () => {
   const checkHidden = () => {
     setCheck({
       checking: "hidden",
-      initalChecked: hiddenPortfolios,
+      initialChecked: hiddenPortfolios,
       checkedPortfolios: hiddenPortfolios,
     });
   };
   const checkFixed = () => {
     setCheck({
       checking: "fixed",
-      initalChecked: fixedPortfolios,
+      initialChecked: fixedPortfolios,
       checkedPortfolios: fixedPortfolios,
     });
   };

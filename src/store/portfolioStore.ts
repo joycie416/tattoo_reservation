@@ -2,10 +2,10 @@ import { atomWithReset } from "jotai/utils";
 
 export const checkedPortfolioStore = atomWithReset<{
   checking: "none" | "hidden" | "fixed";
-  initalChecked: string[];
+  initialChecked: string[];
   checkedPortfolios: string[];
 }>({
   checking: "none",
-  initalChecked: [],
+  initialChecked: [],
   checkedPortfolios: [],
 });

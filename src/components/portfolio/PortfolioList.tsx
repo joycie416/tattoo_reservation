@@ -4,27 +4,25 @@ import { useAdmin, usePortfolios } from "@/hooks/useQueryData";
 import PortfolioCard from "./PortfolioCard";
 import { useAtom } from "jotai";
 import { checkedPortfolioStore } from "@/store/portfolioStore";
-import { useEffect } from "react";
+import { useUpdateFixedHidden } from "@/hooks/usePortfolio";
 
 const PortfolioList = () => {
   const portfolios = usePortfolios();
   const admin = useAdmin();
-  const [{ checking }, setCheck] = useAtom(checkedPortfolioStore);
+  const [{ checking, initialChecked, checkedPortfolios }, setCheck] = useAtom(
+    checkedPortfolioStore
+  );
   const isEditing = checking !== "none";
 
-  useEffect(() => {
-    setCheck((prev) => ({
-      ...prev,
-      checkedPortfolios: portfolios
-        .filter((portfolio) => !portfolio.hidden)
-        .map((portfolio) => portfolio.id),
-    }));
-  }, []);
+  const { mutate: update, isPending } = useUpdateFixedHidden();
 
-  const onCheckSubmitClick = (
+  const onCheckSubmitClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
+    if (checking !== "none") {
+      update({ mode: checking, initialChecked, checkedPortfolios });
+    }
     setCheck((prev) => ({ ...prev, checking: "none" }));
   };
 
@@ -47,6 +45,7 @@ const PortfolioList = () => {
           </button>
         </div>
       )}
+      {isPending && <div className="w-full h-[100vh] fixed top-0 z-50" />}
     </>
   );
 };
