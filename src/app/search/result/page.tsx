@@ -5,7 +5,7 @@ const SearchResultPage = () => {
   return (
     <>
       <PageHeader title="내 예약 확인" backTo="/search" />
-      <div className="container min-h-[calc(100vh-59px)] px-0">
+      <div className="container min-h-[calc(100vh-var(--header-height))] px-0">
         <SearchResultsList />
       </div>
     </>

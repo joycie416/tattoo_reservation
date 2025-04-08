@@ -8,3 +8,4 @@ export type UserReservation = Omit<
 >;
 export type ConfirmedReservation = Tables<"confirmed_reservations">;
 export type Notice = Tables<"notice">;
+export type Portfolio = Tables<"portfolio">;

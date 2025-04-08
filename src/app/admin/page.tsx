@@ -15,8 +15,10 @@ const AdminPage = async () => {
         <h2>관리자 페이지</h2>
         <Link href="/admin/schedule">일정 보기</Link>
         <Link href="/admin/notice/add">공지사항 추가</Link>
+        <Link href="/admin/portfolio/add">포트폴리오 추가</Link>
         <hr className="my-5" />
         <Link href="/notice">공지사항 보기</Link>
+        <Link href="/portfolio">포트폴리오 보기</Link>
         <hr className="my-5" />
         <LogoutButton />
       </div>

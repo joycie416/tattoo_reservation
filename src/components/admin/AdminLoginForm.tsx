@@ -11,7 +11,10 @@ const AdminLoginForm = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    const error = await login(data as LoginType);
+    const error = await login({
+      email: data.id,
+      password: data.password,
+    } as LoginType);
     console.error(error);
 
     if (error) {

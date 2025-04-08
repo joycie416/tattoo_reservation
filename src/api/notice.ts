@@ -12,16 +12,14 @@ export type NoticeFormType = {
   id?: string;
 };
 
-export const addNotice = async ({
-  title,
-  content,
-  fixed,
-  hidden,
-}: Omit<NoticeFormType, "image">) => {
+export const addNotice = async (
+  formData: Omit<NoticeFormType, "image" | "id">
+) => {
   const { data, error } = await browserClient
     .from("notice")
-    .insert({ title, content, fixed, hidden })
+    .insert(formData)
     .select();
+
   if (error) {
     throw new Error(error.message);
   }

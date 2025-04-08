@@ -7,7 +7,7 @@ import PushPinFixed from "/public/icons/pushpin-fixed.svg";
 import PushPinUnfixed from "/public/icons/pushpin-unfixed.svg";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useAdmin } from "@/hooks/useAdmin";
+import { useAdmin } from "@/hooks/useQueryData";
 
 const NoticeCard = ({ notice }: { notice: Notice }) => {
   // 클라이언트 컴포넌트 내부에 작성되어 있어 클라이언트 컴포넌트임.

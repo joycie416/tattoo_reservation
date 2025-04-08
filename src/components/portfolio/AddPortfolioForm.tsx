@@ -1,58 +1,58 @@
 "use client";
 
-import { NoticeFormType } from "@/api/notice";
-import {
-  useAddNotice,
-  useGetSingleNotice,
-  useUpdateNotice,
-} from "@/hooks/useNotice";
+import { PortfolioFormType } from "@/api/portfolio";
+import { useAddPortfolio, useUpdatePortfolio } from "@/hooks/usePortfolio";
+import { usePortfolio } from "@/hooks/useQueryData";
 import { cn } from "@/lib/utils";
 import { Plus, X } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-type AddNoticeFormProps = {
-  searchParams: { id?: string; modify?: string };
-};
-
-const AddNoticeForm = ({
+type AddPortfolioFormProps = { searchParams: { id?: string; modify?: string } };
+const AddPortfolioForm = ({
   searchParams: { id, modify },
-}: AddNoticeFormProps) => {
-  const [notice, setNotice] = useState<NoticeFormType>({
-    title: "",
-    image: [],
-    content: "",
-    fixed: false,
-    hidden: false,
-  });
-  const { data: writenData } = useGetSingleNotice(id ?? "");
-  const { mutate: addNotice } = useAddNotice();
-  const { mutate: updateNotice } = useUpdateNotice();
+}: AddPortfolioFormProps) => {
+  const data = usePortfolio(id);
 
-  useEffect(() => {
-    if (modify == "true") {
-      setNotice({
-        title: writenData?.[0].title ?? "",
-        content: writenData?.[0].content ?? "",
-        image: writenData?.[1] ?? [],
-        fixed: !!writenData?.[0].fixed,
-        hidden: !!writenData?.[0].hidden,
-      });
+  const [portfolio, setPortfolio] = useState<PortfolioFormType>(() => {
+    const defaultData: PortfolioFormType = {
+      image: [],
+      content: "",
+      part: "",
+      size: "",
+      fixed: false,
+      hidden: false,
+    };
+    let initData: PortfolioFormType | null = null;
+    // const data = usePortfolio(id);
+    if (data) {
+      initData = {
+        image: [],
+        content: data.content,
+        part: data.part,
+        size: data.size,
+        fixed: !!data.fixed,
+        hidden: !!data.hidden,
+      };
     }
-  }, [writenData]);
+    return initData ?? defaultData;
+  });
+
+  const { mutate: addPortfolio } = useAddPortfolio();
+  const { mutate: updatePortfolio } = useUpdatePortfolio();
 
   const imgRef = useRef<HTMLInputElement>(null);
   const handleImageChange = () => {
     if (imgRef.current && imgRef.current.files?.length) {
       console.log("이미지 변경", imgRef.current.files);
       const file = Array.from(imgRef.current.files);
-      setNotice((prev) => ({ ...prev, image: file }));
+      setPortfolio((prev) => ({ ...prev, image: file }));
     }
     // 취소시 기존 이미지 파일 유지
   };
 
   const handleImageDelete = () => {
-    setNotice((prev) => ({ ...prev, image: [] }));
+    setPortfolio((prev) => ({ ...prev, image: [] }));
   };
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -65,11 +65,11 @@ const AddNoticeForm = ({
     }
   };
 
-  // useEffect(() => {
-  //   resizeTextarea();
-  // }, [notice.content])
-
-  const isValid = !!notice.title && !!notice.image.length && !!notice.content;
+  const isValid =
+    portfolio.image.length > 0 &&
+    !!portfolio.content &&
+    !!portfolio.part &&
+    !!portfolio.size;
   const onSubmitClick = () =>
     // e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     {
@@ -79,27 +79,16 @@ const AddNoticeForm = ({
       }
       if (modify == "true" && !!id) {
         console.log("수정");
-        updateNotice({ ...notice, id });
+        updatePortfolio({ ...portfolio, id });
         return;
       }
       console.log("추가");
-      addNotice(notice);
+      addPortfolio(portfolio);
     };
 
   return (
     <div className="pt-6">
       <form className="pb-4 space-y-8">
-        <div className="space-y-2">
-          <h3>제목을 입력해주세요.</h3>
-          <input
-            placeholder="제목을 입력해주세요"
-            defaultValue={notice.title}
-            onChange={(e) =>
-              setNotice((prev) => ({ ...prev, title: e.target.value }))
-            }
-            className="w-full"
-          />
-        </div>
         <div className="space-y-4">
           <div className="space-y-1">
             <h3>이미지를 추가해주세요. (1장 필수)</h3>
@@ -122,7 +111,7 @@ const AddNoticeForm = ({
                 />
                 <Plus size={48} color="#636363" className="w-12 h-12" />
               </div>
-              {notice.image.map((file) => (
+              {portfolio.image.map((file) => (
                 <div
                   className={`w-[84px] h-[84px] rounded-[8px] overflow-hidden relative`}
                   key={`notice_image`}
@@ -148,18 +137,40 @@ const AddNoticeForm = ({
           </div>
         </div>
         <div className="flex-grow space-y-2 flex flex-col">
-          <h3>글 내용을 입력해주세요.</h3>
+          <h3>소개글을 입력해주세요.</h3>
           <textarea
             ref={textareaRef}
             id="content"
             name="content"
             placeholder="내용을 입력해주세요"
-            defaultValue={notice.content}
+            defaultValue={portfolio.content}
             onInput={() => resizeTextarea()}
             onChange={(e) =>
-              setNotice((prev) => ({ ...prev, content: e.target.value }))
+              setPortfolio((prev) => ({ ...prev, content: e.target.value }))
             }
             className="w-full min-h-[287px] p-4 mb-4 resize-none border border-backgound rounded-[4px] text-body-md placeholder:text-font2 placeholder:text-body-md"
+          />
+        </div>
+        <div className="space-y-2">
+          <h3>추천 부위를 입력해주세요.</h3>
+          <input
+            placeholder="부위를 입력해주세요"
+            defaultValue={portfolio.part}
+            onChange={(e) =>
+              setPortfolio((prev) => ({ ...prev, part: e.target.value }))
+            }
+            className="w-full"
+          />
+        </div>
+        <div className="space-y-2">
+          <h3>추천 사이즈를 입력해주세요.</h3>
+          <input
+            placeholder="사이즈를 입력해주세요"
+            defaultValue={portfolio.size}
+            onChange={(e) =>
+              setPortfolio((prev) => ({ ...prev, size: e.target.value }))
+            }
+            className="w-full"
           />
         </div>
       </form>
@@ -182,4 +193,4 @@ const AddNoticeForm = ({
   );
 };
 
-export default AddNoticeForm;
+export default AddPortfolioForm;
