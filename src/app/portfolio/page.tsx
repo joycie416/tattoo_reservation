@@ -8,7 +8,7 @@ const PortfolioPage = () => {
       <PageHeaderWithButton title="포트폴리오" backTo="/">
         <EditPortfolioButton />
       </PageHeaderWithButton>
-      <div className="container min-h-[calc(100vh-var(--header-height))] py-6 bg-gray-10">
+      <div className="container min-h-[calc(100vh-var(--header-height))] p-0">
         <PortfolioList />
       </div>
     </>
