@@ -1,6 +1,5 @@
 import AddPortfolioButton from "@/components/portfolio/AddPortfolioButton";
 import PageHeaderWithButton from "@/components/shared/PageHeaderWithButton";
-import React from "react";
 
 const PortfolioPage = () => {
   return (
