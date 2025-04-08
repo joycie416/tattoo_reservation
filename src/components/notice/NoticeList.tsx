@@ -3,7 +3,7 @@
 import { useGetFullNotice } from "@/hooks/useNotice";
 import React from "react";
 import NoticeCard from "./NoticeCard";
-import { useAdmin } from "@/hooks/useAdmin";
+import { useAdmin } from "@/hooks/useQueryData";
 
 const NoticeList = () => {
   const admin = useAdmin();

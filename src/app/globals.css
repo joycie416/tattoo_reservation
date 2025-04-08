@@ -17,6 +17,7 @@ body {
 @layer base {
   :root {
     --radius: 0.5rem;
+    --header-height: 59px;
     --mobile-width: 659px;
 
     --font-pretendard: "Pretendard", sans-serif;

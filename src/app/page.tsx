@@ -11,11 +11,13 @@ export default function Home() {
       <LogoutButton />
       <Link href="/admin/schedule">일정 보기</Link>
       <Link href="/admin/notice/add">공지사항 추가</Link>
+      <Link href="/admin/portfolio/add">포트폴리오 추가</Link>
       <hr className="border-black" />
       <p className="mx-auto">손님 서비스</p>
       <Link href="/reservation/add/1">예약하기</Link>
       <Link href="/search">내 예약 확인하기</Link>
       <Link href="/notice">소식, 이벤트 확인</Link>
+      <Link href="/portfolio">포트폴리오 확인</Link>
     </div>
   );
 }

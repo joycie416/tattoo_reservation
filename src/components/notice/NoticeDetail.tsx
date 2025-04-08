@@ -16,7 +16,7 @@ import { getPublicUrl } from "@/utils/common";
 import Toggle from "../shared/Toggle";
 import { cn } from "@/lib/utils";
 import DataLoading from "../shared/DataLoading";
-import { useAdmin } from "@/hooks/useAdmin";
+import { useAdmin } from "@/hooks/useQueryData";
 import PageHeaderWithButton from "../shared/PageHeaderWithButton";
 
 const NoticeDetail = ({ noticeId }: { noticeId: string }) => {

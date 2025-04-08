@@ -6,7 +6,7 @@ const ReservationSearchPage = () => {
   return (
     <>
       <PageHeader title="내 예약 확인" backTo="/" />{" "}
-      <div className="container min-h-[calc(100vh-59px)] flex items-center">
+      <div className="container min-h-[calc(100vh-var(--header-height))] flex items-center">
         <ReservationSearchForm />
       </div>
     </>

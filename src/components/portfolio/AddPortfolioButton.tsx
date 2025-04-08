@@ -5,12 +5,12 @@ import { Pen } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const AddNoticeButton = () => {
+const AddPortfolioButton = () => {
   const admin = useAdmin();
   return (
     <>
       {!!admin && (
-        <Link href="/admin/notice/add" className="p-2 absolute right-4">
+        <Link href="/admin/portfolio/add" className="p-2 absolute right-4">
           <Pen />
         </Link>
       )}
@@ -18,4 +18,4 @@ const AddNoticeButton = () => {
   );
 };
 
-export default AddNoticeButton;
+export default AddPortfolioButton;
