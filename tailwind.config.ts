@@ -71,6 +71,7 @@ const config: Config = {
 
         "body-sm": ["12px", { fontWeight: "400" }],
         "body-md": ["14px", { fontWeight: "400" }],
+        "body-lg": ["16px", { lineHeight: "20px", fontWeight: "400" }],
 
         "button-xs": ["12px", { fontWeight: "500" }],
         "button-sm": ["14px", { fontWeight: "500" }],
