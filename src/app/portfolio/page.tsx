@@ -1,14 +1,15 @@
-import AddPortfolioButton from "@/components/portfolio/AddPortfolioButton";
+import EditPortfolioButton from "@/components/portfolio/EditPortfolioButton";
+import PortfolioList from "@/components/portfolio/PortfolioList";
 import PageHeaderWithButton from "@/components/shared/PageHeaderWithButton";
 
 const PortfolioPage = () => {
   return (
     <>
       <PageHeaderWithButton title="포트폴리오" backTo="/">
-        <AddPortfolioButton />
+        <EditPortfolioButton />
       </PageHeaderWithButton>
-      <div className="container">
-        <p>포트폴리오 나열할 예정</p>
+      <div className="container min-h-[calc(100vh-var(--header-height))] py-6 bg-gray-10">
+        <PortfolioList />
       </div>
     </>
   );

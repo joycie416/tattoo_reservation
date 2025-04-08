@@ -4,6 +4,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import { Provider } from "jotai";
 import { Metadata } from "next";
 import { ReactNode } from "react";
 
@@ -25,7 +26,7 @@ const layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      {children}
+      <Provider>{children}</Provider>
     </HydrationBoundary>
   );
 };

@@ -10,7 +10,7 @@ const AddPortfolioButton = () => {
   return (
     <>
       {!!admin && (
-        <Link href="/portfolio/add" className="p-2 absolute right-4">
+        <Link href="/admin/portfolio/add" className="p-2 absolute right-4">
           <Pen />
         </Link>
       )}

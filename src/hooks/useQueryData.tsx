@@ -15,3 +15,9 @@ export const usePortfolio = (id?: string) => {
   if (!portfolios) return null;
   return portfolios.find((portfolio) => portfolio.id === id) ?? null;
 };
+
+export const usePortfolios = () => {
+  const queryClient = useQueryClient();
+  const portfolios = queryClient.getQueryData<Portfolio[]>(["portfolio"]);
+  return portfolios ?? [];
+};
