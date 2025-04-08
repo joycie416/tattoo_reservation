@@ -96,33 +96,48 @@ export const useDeleteNotice = () => {
 };
 
 export const useUpdateFixedHidden = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (updateData: { id: string; fixed: boolean; hidden: boolean }) =>
-      updateFixedHidden(updateData),
-    onMutate: async (updateData: {
-      id: string;
-      fixed: boolean;
-      hidden: boolean;
+    mutationFn: (updateData: {
+      mode: "fixed" | "hidden";
+      initialChecked: string[];
+      checkedPortfolios: string[];
+    }) => updateFixedHidden(updateData),
+    onMutate: async ({}: // mode,
+    // initialChecked,
+    // checkedPortfolios,
+    {
+      mode: "fixed" | "hidden";
+      initialChecked: string[];
+      checkedPortfolios: string[];
     }) => {
       await queryClient.cancelQueries({ queryKey: ["portfolio"] });
       const prevPortfolios =
         queryClient.getQueryData<Portfolio[]>(["portfolio"]) ?? [];
-      const newPortfolioIndex = prevPortfolios.findIndex(
-        (data) => data.id === updateData.id
-      );
 
-      if (newPortfolioIndex > -1) {
-        const newPortfolio = prevPortfolios[newPortfolioIndex];
-        newPortfolio.fixed = !!updateData.fixed;
-        newPortfolio.hidden = !!updateData.hidden;
+      // const newChecks = checkedPortfolios.filter(
+      //   (id) => !initialChecked.includes(id)
+      // );
+      // const removeChecks = initialChecked.filter(
+      //   (id) => !checkedPortfolios.includes(id)
+      // );
 
-        queryClient.setQueryData<Portfolio[]>(
-          ["portfolio"],
-          prevPortfolios.splice(newPortfolioIndex, 1, newPortfolio)
-        );
-      }
+      // const newPortfolios = prevPortfolios.map((portfolio) => {
+      //   if (newChecks.includes(portfolio.id))
+      //     return mode === "fixed"
+      //       ? { ...portfolio, fixed: true }
+      //       : { ...portfolio, hidden: true };
+      //   if (removeChecks.includes(portfolio.id))
+      //     return mode === "fixed"
+      //       ? { ...portfolio, fixed: false }
+      //       : { ...portfolio, hidden: false };
+      //   return portfolio;
+      // });
+
+      // queryClient.setQueryData<Portfolio[]>(["portfolio"], newPortfolios);
+
       return { prevPortfolios };
     },
     onError: (_, __, context) => {
@@ -133,6 +148,7 @@ export const useUpdateFixedHidden = () => {
         );
       }
     },
+    onSuccess: () => router.refresh(),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["portfolio"] });
     },

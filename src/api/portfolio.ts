@@ -83,21 +83,40 @@ export const updatePortfolio = async (
 };
 
 export const updateFixedHidden = async ({
-  id,
-  fixed,
-  hidden,
+  mode,
+  initialChecked,
+  checkedPortfolios,
 }: {
-  id: string;
-  fixed: boolean;
-  hidden: boolean;
+  mode: "fixed" | "hidden";
+  initialChecked: string[];
+  checkedPortfolios: string[];
 }) => {
-  const { error } = await browserClient
-    .from("portfolio")
-    .update({ fixed, hidden })
-    .eq("id", id);
+  const newChecks = checkedPortfolios.filter(
+    (id) => !initialChecked.includes(id)
+  );
+  const removeChecks = initialChecked.filter(
+    (id) => !checkedPortfolios.includes(id)
+  );
 
-  if (error) {
-    throw new Error(error.message);
+  const { error: trueError } = await browserClient.from("portfolio").upsert(
+    newChecks.map((id) =>
+      mode === "fixed" ? { id, fixed: true } : { id, hidden: true }
+    ),
+    { onConflict: "id" }
+  );
+
+  const { error: falseError } = await browserClient.from("portfolio").upsert(
+    removeChecks.map((id) =>
+      mode === "fixed" ? { id, fixed: false } : { id, hidden: false }
+    ),
+    { onConflict: "id" }
+  );
+
+  if (trueError) {
+    throw new Error(trueError.message);
+  }
+  if (falseError) {
+    throw new Error(falseError.message);
   }
   return null;
 };
